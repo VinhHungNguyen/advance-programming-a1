@@ -12,4 +12,9 @@ public class Sprinter extends Athlete {
         return new Random(System.currentTimeMillis())
                 .nextInt(Game.RANGE_TIME_RUNNING) + Game.MIN_TIME_RUNNING;
     }
+
+    @Override
+    public String getPlayableGameIdPrefix() {
+        return Game.ID_PREFIX_RUNNING;
+    }
 }

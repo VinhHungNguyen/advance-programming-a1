@@ -10,4 +10,10 @@ public abstract class Athlete extends Participant {
      * The range of random time depends on the sport this athlete plays.
      */
     public abstract int compete();
+
+    /**
+     * Get the ID prefix of the game which this athlete can participate
+     * @return The ID prefix of the game
+     */
+    public abstract String getPlayableGameIdPrefix();
 }

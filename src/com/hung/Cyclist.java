@@ -12,4 +12,9 @@ public class Cyclist extends Athlete {
         return new Random(System.currentTimeMillis())
                 .nextInt(Game.RANGE_TIME_CYCLING) + Game.MIN_TIME_CYCLING;
     }
+
+    @Override
+    public String getPlayableGameIdPrefix() {
+        return Game.ID_PREFIX_CYCLING;
+    }
 }

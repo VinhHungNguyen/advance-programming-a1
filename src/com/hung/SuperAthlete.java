@@ -29,6 +29,11 @@ public class SuperAthlete extends Athlete {
                 .nextInt(range) + min;
     }
 
+    @Override
+    public String getPlayableGameIdPrefix() {
+        return "";
+    }
+
     public Game getGame() {
         return game;
     }
