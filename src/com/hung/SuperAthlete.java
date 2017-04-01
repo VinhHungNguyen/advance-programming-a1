@@ -7,33 +7,33 @@ import java.util.Random;
  */
 public class SuperAthlete extends Athlete {
 
-    private Sport sport;
+    private Game game;
 
     @Override
     public int compete() {
         int range = 0;
         int min = 0;
 
-        if (sport.getId().startsWith(Sport.ID_PREFIX_SWIMMING)) {
-            range = Sport.RANGE_TIME_SWIMMING;
-            min = Sport.MIN_TIME_SWIMMING;
-        } else if (sport.getId().startsWith(Sport.ID_PREFIX_CYCLING)) {
-            range = Sport.RANGE_TIME_CYCLING;
-            min = Sport.MIN_TIME_CYCLING;
-        } else if (sport.getId().startsWith(Sport.ID_PREFIX_RUNNING)) {
-            range = Sport.RANGE_TIME_RUNNING;
-            min = Sport.MIN_TIME_RUNNING;
+        if (game.getId().startsWith(Game.ID_PREFIX_SWIMMING)) {
+            range = Game.RANGE_TIME_SWIMMING;
+            min = Game.MIN_TIME_SWIMMING;
+        } else if (game.getId().startsWith(Game.ID_PREFIX_CYCLING)) {
+            range = Game.RANGE_TIME_CYCLING;
+            min = Game.MIN_TIME_CYCLING;
+        } else if (game.getId().startsWith(Game.ID_PREFIX_RUNNING)) {
+            range = Game.RANGE_TIME_RUNNING;
+            min = Game.MIN_TIME_RUNNING;
         }
 
         return new Random(System.currentTimeMillis())
                 .nextInt(range) + min;
     }
 
-    public Sport getSport() {
-        return sport;
+    public Game getGame() {
+        return game;
     }
 
-    public void setSport(Sport sport) {
-        this.sport = sport;
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

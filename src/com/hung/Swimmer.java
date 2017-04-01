@@ -10,6 +10,6 @@ public class Swimmer extends Athlete {
     @Override
     public int compete() {
         return new Random(System.currentTimeMillis())
-                .nextInt(Sport.RANGE_TIME_SWIMMING) + Sport.MIN_TIME_SWIMMING;
+                .nextInt(Game.RANGE_TIME_SWIMMING) + Game.MIN_TIME_SWIMMING;
     }
 }

@@ -10,6 +10,6 @@ public class Sprinter extends Athlete {
     @Override
     public int compete() {
         return new Random(System.currentTimeMillis())
-                .nextInt(Sport.RANGE_TIME_RUNNING) + Sport.MIN_TIME_RUNNING;
+                .nextInt(Game.RANGE_TIME_RUNNING) + Game.MIN_TIME_RUNNING;
     }
 }

@@ -3,7 +3,7 @@ package com.hung;
 /**
  * Created by hungnguyen on 4/1/17.
  */
-public abstract class Athlete extends Person {
+public abstract class Athlete extends Participant {
 
     /**
      * Randomly generate a time which the athlete finishes a game.

@@ -3,7 +3,7 @@ package com.hung;
 /**
  * Created by hungnguyen on 4/1/17.
  */
-public class Sport {
+public class Game {
 
     public static final int MIN_TIME_SWIMMING = 100;
     public static final int RANGE_TIME_SWIMMING = 100;
@@ -18,7 +18,7 @@ public class Sport {
 
     private String id;
 
-    public Sport(String id) {
+    public Game(String id) {
         this.id = id;
     }
 
