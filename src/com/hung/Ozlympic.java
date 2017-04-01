@@ -2,6 +2,9 @@ package com.hung;
 
 import java.util.Scanner;
 
+/**
+ * Created by hungnguyen on 4/1/17.
+ */
 public class Ozlympic {
 
     public static void main(String[] args) {
@@ -52,22 +55,37 @@ public class Ozlympic {
         } while (true);
     }
 
+    /**
+     * Select a game to run
+     */
     private void selectGameToRun() {
 
     }
 
+    /**
+     * Allow the user to predict the winner of that game
+     */
     private void predictWinner() {
 
     }
 
+    /**
+     * Start the game
+     */
     private void startGame() {
 
     }
 
+    /**
+     * Display the final results of all games
+     */
     private void displayResults() {
 
     }
 
+    /**
+     * Display the points of all athletes
+     */
     private void displayAthletePoints() {
 
     }
