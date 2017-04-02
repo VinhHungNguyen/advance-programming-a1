@@ -7,6 +7,10 @@ import java.util.Random;
  */
 public class Cyclist extends Athlete {
 
+    public Cyclist(Integer id, String name, String state, int age) {
+        super(id, name, state, age);
+    }
+
     @Override
     public int compete() {
         return new Random(System.currentTimeMillis())

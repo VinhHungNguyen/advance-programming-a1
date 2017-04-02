@@ -5,16 +5,34 @@ package com.hung;
  */
 public abstract class Participant {
 
-    protected String id;
+    protected Integer id;
     protected String name;
     protected String state;
     protected int age;
 
-    public String getId() {
+    public Participant(Integer id, String name, String state, int age) {
+        this.id = id;
+        this.name = name;
+        this.state = state;
+        this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Participant p = (Participant) obj;
+        return id == p.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

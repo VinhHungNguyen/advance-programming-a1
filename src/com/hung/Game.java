@@ -1,7 +1,7 @@
 package com.hung;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by hungnguyen on 4/1/17.
@@ -15,19 +15,35 @@ public class Game {
     public static final int MIN_TIME_RUNNING = 10;
     public static final int RANGE_TIME_RUNNING = 10;
 
+    public static final int MIN_PARTICIPANTS = 5;
     public static final int MAX_PARTICIPANTS = 8;
 
     public static final String ID_PREFIX_SWIMMING = "S";
     public static final String ID_PREFIX_CYCLING = "C";
     public static final String ID_PREFIX_RUNNING = "R";
 
-    private List<Athlete> athletes;
+    private Set<Athlete> athletes;
+    private Official official;
 
     private String id;
 
     public Game(String id) {
         this.id = id;
-        athletes = new ArrayList<>();
+        athletes = new HashSet<>();
+    }
+
+    public boolean run() {
+        // The number of participating athletes is not enough
+        if (!isReadyToPlay()) {
+            System.out.println("The game requires at least " + MIN_PARTICIPANTS + " athletes to run.");
+            return false;
+        }
+
+        for (Athlete a : athletes) {
+            a.compete();
+        }
+
+        return true;
     }
 
     /**
@@ -38,11 +54,13 @@ public class Game {
      * @return True if adding successfully
      */
     public boolean addAthlete(Athlete athlete) {
-        if (athletes.size() < MAX_PARTICIPANTS) {
+        // Already reached max number of participants
+        if (athletes.size() >= MAX_PARTICIPANTS) {
             System.out.println("This game has reached maximum number of participants (8 participants).");
             return false;
         }
 
+        // The athlete cannot play this game
         if (!athlete.getPlayableGameIdPrefix().isEmpty() && !id.startsWith(athlete.getPlayableGameIdPrefix())) {
             System.out.println("This athlete cannot participate this game.");
             return false;
@@ -50,6 +68,24 @@ public class Game {
 
         athletes.add(athlete);
         return true;
+    }
+
+    /**
+     * Add all athletes from a given list of athletes
+     * @param athletes The list or array of athletes
+     * @return True if adding successfully
+     */
+    public boolean addAllAthlete(Athlete... athletes) {
+        for (Athlete a : athletes) {
+            if (!addAthlete(a)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isReadyToPlay() {
+        return athletes.size() >= MIN_PARTICIPANTS;
     }
 
     public String getId() {

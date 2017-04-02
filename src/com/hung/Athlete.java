@@ -5,6 +5,10 @@ package com.hung;
  */
 public abstract class Athlete extends Participant {
 
+    public Athlete(Integer id, String name, String state, int age) {
+        super(id, name, state, age);
+    }
+
     /**
      * Randomly generate a time which the athlete finishes a game.
      * The range of random time depends on the sport this athlete plays.

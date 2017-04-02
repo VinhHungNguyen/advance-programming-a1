@@ -9,6 +9,10 @@ public class SuperAthlete extends Athlete {
 
     private Game game;
 
+    public SuperAthlete(Integer id, String name, String state, int age) {
+        super(id, name, state, age);
+    }
+
     @Override
     public int compete() {
         int range = 0;
