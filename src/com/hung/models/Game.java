@@ -1,7 +1,6 @@
 package com.hung.models;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by hungnguyen on 4/1/17.
@@ -22,14 +21,15 @@ public class Game {
     public static final String ID_PREFIX_CYCLING = "C";
     public static final String ID_PREFIX_RUNNING = "R";
 
-    private Set<Athlete> athletes;
+    private List<Athlete> athletes;
     private Official official;
 
     private String id;
+    private Integer predictedAthleteId;
 
     public Game(String id) {
         this.id = id;
-        athletes = new HashSet<>();
+        athletes = new ArrayList<>();
     }
 
     public boolean run() {
@@ -41,8 +41,20 @@ public class Game {
         }
 
         for (Athlete a : athletes) {
-            a.compete();
+            a.setPreviousAchieveTime(a.compete());
         }
+
+        Collections.sort(athletes,  new Comparator<Athlete>() {
+            @Override
+            public int compare(Athlete o1, Athlete o2) {
+                if (o1.getPreviousAchieveTime() < o2.getPreviousAchieveTime()) {
+                    return 1;
+                } else if (o1.getPreviousAchieveTime() > o2.getPreviousAchieveTime()) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
 
         return true;
     }
@@ -65,6 +77,14 @@ public class Game {
         if (!athlete.getPlayableGameIdPrefix().isEmpty() && !id.startsWith(athlete.getPlayableGameIdPrefix())) {
             System.out.println("This athlete cannot participate this game.");
             return false;
+        }
+
+        // The athlete is already added to this game
+        for (Athlete a : athletes) {
+            if (a.getId() == athlete.getId()) {
+                System.out.println("This athlete is already in this game.");
+                return false;
+            }
         }
 
         athlete.setGame(this);
@@ -102,5 +122,17 @@ public class Game {
 
     public String getId() {
         return id;
+    }
+
+    public List<Athlete> getAthletes() {
+        return athletes;
+    }
+
+    public Integer getPredictedAthleteId() {
+        return predictedAthleteId;
+    }
+
+    public void setPredictedAthleteId(Integer predictedAthleteId) {
+        this.predictedAthleteId = predictedAthleteId;
     }
 }

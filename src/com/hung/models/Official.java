@@ -8,4 +8,8 @@ public class Official extends Participant {
     public Official(Integer id, String name, String state, int age) {
         super(id, name, state, age);
     }
+
+    public void summarise() {
+        
+    }
 }

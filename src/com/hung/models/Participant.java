@@ -17,20 +17,21 @@ public abstract class Participant {
         this.age = age;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        Participant p = (Participant) obj;
-        return id == p.getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
+//    @Override
+//    public boolean equals(Object obj) {
+//        Participant p = (Participant) obj;
+//        return id == p.getId();
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return id.hashCode();
+//    }
 
     @Override
     public String toString() {
-        return new StringBuilder(getClass().getName()).append(" - ")
+//        return new StringBuilder(getClass().getName()).append(" - ")
+        return new StringBuilder("#")
                 .append(id).append(" - ")
                 .append(name).append(" - ")
                 .append(state).append(" - ")

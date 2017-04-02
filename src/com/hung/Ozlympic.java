@@ -5,6 +5,7 @@ import com.hung.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by hungnguyen on 4/1/17.
@@ -43,6 +44,8 @@ public class Ozlympic {
     private List<Game> runningGames;
 
     private Game selectedGame;
+
+    private int participantCount;
 
     public static void main(String[] args) {
         Ozlympic ozlympic = new Ozlympic();
@@ -139,7 +142,40 @@ public class Ozlympic {
      * Allow the user to predict the winner of that game
      */
     private void predictWinner() {
+        if (selectedGame == null) {
+            System.out.println("No game is currently selected.\n Please select a game and then run it.\n");
+            return;
+        }
 
+        List<Athlete> athletes = selectedGame.getAthletes();
+        StringBuilder sb = new StringBuilder("\nList of participants:");
+
+        for (int i = 0; i < athletes.size(); i++) {
+            sb.append(i + 1).append(". ").append(athletes.get(i).toString());
+        }
+
+        sb.append("Enter your prediction: ");
+
+        String menuText = sb.toString();
+        sb = new StringBuilder("The selection must be an integer within 1 to ");
+        sb.append(athletes.size() + 1).append(".\n");
+
+        String alertMsg = sb.toString();
+        Utils.OnMenuOptionSelectedListener[] listeners = new Utils.OnMenuOptionSelectedListener[athletes.size()];
+
+        for (int i = 0; i < athletes.size(); i++) {
+            final Athlete athlete = athletes.get(i);
+            listeners[i] = new Utils.OnMenuOptionSelectedListener() {
+                @Override
+                public boolean onOptionSelected() {
+                    selectedGame.setPredictedAthleteId(athlete.getId());
+
+                    return true;
+                }
+            };
+        }
+
+        Utils.runMenuFlow(menuText, alertMsg, listeners);
     }
 
     /**
@@ -167,6 +203,10 @@ public class Ozlympic {
 
     }
 
+    /**
+     * Select a game of a selected type
+     * @param games List of the games of the selected type
+     */
     private void selectGameToRun(final List<Game> games) {
         StringBuilder sb = new StringBuilder("Select a game to run:\n");
 
@@ -204,8 +244,28 @@ public class Ozlympic {
      * Make hard coded data for the program
      */
     private void makeHardCodedData() {
+        makeHardCodedDataForOfficials();
         makeHardCodedDataForAthletes();
         makeHardCodedDataForGames();
+    }
+
+    /**
+     * Make hard coded data for officials
+     */
+    private void makeHardCodedDataForOfficials() {
+        // Hard coded text for officials
+        String[][] officialStrings = {
+                {"Kyokushin", "Karate"}, {"Goju", "Karate"}, {"Shotokan", "Karate"}, {"Suzucho", "Karate"},
+                {"Shitoryu", "Karate"}
+        };
+
+        // Setup officials
+        for (int i = 0; i < officialStrings.length; i++) {
+            String[] officialData = officialStrings[i];
+            int age = 30 + i;
+            officials.add(new Official(participantCount, officialData[0], officialData[1], age));
+            participantCount++;
+        }
     }
 
     /**
@@ -230,38 +290,36 @@ public class Ozlympic {
                 {"Nobunaga", "Fuji"}, {"Iga", "Shinobi"}, {"Kouga", "Shinobi"}
         };
 
-        int id = 0;
-
         // Setup swimmers
         for (int i = 0; i < swimmerStrings.length; i++) {
             String[] swimmerData = swimmerStrings[i];
             int age = 20 + i;
-            swimmers.add(new Swimmer(id, swimmerData[0], swimmerData[1], age));
-            id++;
+            swimmers.add(new Swimmer(participantCount, swimmerData[0], swimmerData[1], age));
+            participantCount++;
         }
 
         // Setup cyclists
         for (int i = 0; i < cyclistStrings.length; i++) {
             String[] cyclistData = cyclistStrings[i];
             int age = 20 + i;
-            cyclists.add(new Cyclist(id, cyclistData[0], cyclistData[1], age));
-            id++;
+            cyclists.add(new Cyclist(participantCount, cyclistData[0], cyclistData[1], age));
+            participantCount++;
         }
 
         // Setup sprinters
         for (int i = 0; i < sprinterStrings.length; i++) {
             String[] sprinterData = sprinterStrings[i];
             int age = 20 + i;
-            sprinters.add(new Sprinter(id, sprinterData[0], sprinterData[1], age));
-            id++;
+            sprinters.add(new Sprinter(participantCount, sprinterData[0], sprinterData[1], age));
+            participantCount++;
         }
 
         // Setup super athletes
         for (int i = 0; i < superAthleteStrings.length; i++) {
             String[] superAthleteData = superAthleteStrings[i];
             int age = 20 + i;
-            superAthletes.add(new SuperAthlete(id, superAthleteData[0], superAthleteData[1], age));
-            id++;
+            superAthletes.add(new SuperAthlete(participantCount, superAthleteData[0], superAthleteData[1], age));
+            participantCount++;
         }
     }
 
