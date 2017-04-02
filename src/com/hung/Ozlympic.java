@@ -239,7 +239,7 @@ public class Ozlympic {
 
             // Setup each game for a type of game
             for (int j = 0; j < numberOfEachType; j++) {
-                String gameId = idPrefix + String.format("%2d", id);
+                String gameId = idPrefix + String.format("%02d", id);
                 Game g = new Game(gameId);
 
                 // Add all super athletes
@@ -250,6 +250,7 @@ public class Ozlympic {
                     g.addAthlete((Athlete) moreAthletes.get(n));
                 }
 
+//                System.out.println(g.toString());
                 games.add(g);
                 id++;
             }

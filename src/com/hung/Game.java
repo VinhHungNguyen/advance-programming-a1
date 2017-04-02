@@ -88,6 +88,16 @@ public class Game {
         return athletes.size() >= MIN_PARTICIPANTS;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(id);
+        for (Athlete a : athletes) {
+            sb.append("\n");
+            sb.append(a.toString());
+        }
+        return sb.toString();
+    }
+
     public String getId() {
         return id;
     }

@@ -7,6 +7,7 @@ public abstract class Athlete extends Participant {
 
     public Athlete(Integer id, String name, String state, int age) {
         super(id, name, state, age);
+//        System.out.println(this);
     }
 
     /**

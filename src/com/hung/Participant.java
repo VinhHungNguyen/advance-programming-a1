@@ -28,6 +28,15 @@ public abstract class Participant {
         return id.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return new StringBuilder(getClass().getName()).append(" - ")
+                .append(id).append(" - ")
+                .append(name).append(" - ")
+                .append(state).append(" - ")
+                .append(age).toString();
+    }
+
     public Integer getId() {
         return id;
     }
