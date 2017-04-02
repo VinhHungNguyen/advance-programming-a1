@@ -1,4 +1,7 @@
-package com.hung;
+package com.hung.models;
+
+import com.hung.models.Athlete;
+import com.hung.models.Game;
 
 import java.util.Random;
 
@@ -6,8 +9,6 @@ import java.util.Random;
  * Created by hungnguyen on 4/1/17.
  */
 public class SuperAthlete extends Athlete {
-
-    private Game game;
 
     public SuperAthlete(Integer id, String name, String state, int age) {
         super(id, name, state, age);
@@ -38,11 +39,4 @@ public class SuperAthlete extends Athlete {
         return "";
     }
 
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
 }

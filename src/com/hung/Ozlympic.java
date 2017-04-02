@@ -1,13 +1,35 @@
 package com.hung;
 
+import com.hung.models.*;
+import com.hung.utils.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created by hungnguyen on 4/1/17.
  */
 public class Ozlympic {
+
+    private static final String MAIN_MENU_TEXT = "Ozlympic Game\n" +
+            "===================================\n" +
+            "1. Select a game to run\n" +
+            "2. Predict the winner of the game\n" +
+            "3. Start the game\n" +
+            "4. Display the final results of all swimmingGames\n" +
+            "5. Display the points of all athletes\n" +
+            "6. Exit\n" +
+            "Enter an option: ";
+    private static final String GAME_MENU_TEXT = "Select a type of game:\n" +
+            "1. Swimming\n" +
+            "2. Cycling\n" +
+            "3. Running\n" +
+            "4. Back\n" +
+            "Enter an option: ";
+
+    private static final String INVALID_MAIN_MENU_SELECTION = "The selection must be an integer within 1 to 6.";
+    private static final String INVALID_GAME_MENU_SELECTION = "The selection must be an integer within 1 to 4 " +
+            "for swimming, cycling, running, or back respectively.";
 
     private List<Swimmer> swimmers;
     private List<Cyclist> cyclists;
@@ -19,6 +41,8 @@ public class Ozlympic {
     private List<Game> swimmingGames;
     private List<Game> cyclingGames;
     private List<Game> runningGames;
+
+    private Game selectedGame;
 
     public static void main(String[] args) {
         Ozlympic ozlympic = new Ozlympic();
@@ -44,50 +68,71 @@ public class Ozlympic {
      * Start the Ozlympic game
      */
     private void start() {
-        Scanner scanner = new Scanner(System.in);
-        int selection = 0;
-
-        do {
-            printMenu();
-
-            // Handle when the input selection is not an integer.
-            if (!scanner.hasNextInt()) {
-                alertInvalidSelection();
-                scanner.next();
-                continue;
-            }
-
-            selection = scanner.nextInt();
-
-            // If the selection is not within 1 to 6
-            if (selection < 1 || selection > 6) {
-                alertInvalidSelection();
-                continue;
-            }
-
-            if (selection == 1) {
-                selectGameToRun();
-            } else if (selection == 2) {
-                predictWinner();
-            } else if (selection == 3) {
-                startGame();
-            } else if (selection == 4) {
-                displayResults();
-            } else if (selection == 5) {
-                displayAthletePoints();
-            } else if (selection == 6) {
-                break;
-            }
-
-            System.out.println();
-        } while (true);
+        Utils.runMenuFlow(MAIN_MENU_TEXT, INVALID_MAIN_MENU_SELECTION,
+                new Utils.OnMenuOptionSelectedListener() {
+                    @Override
+                    public boolean onOptionSelected() {
+                        selectTypeOfGame();
+                        return false;
+                    }
+                },
+                new Utils.OnMenuOptionSelectedListener() {
+                    @Override
+                    public boolean onOptionSelected() {
+                        predictWinner();
+                        return false;
+                    }
+                },
+                new Utils.OnMenuOptionSelectedListener() {
+                    @Override
+                    public boolean onOptionSelected() {
+                        startGame();
+                        return false;
+                    }
+                },
+                new Utils.OnMenuOptionSelectedListener() {
+                    @Override
+                    public boolean onOptionSelected() {
+                        displayResults();
+                        return false;
+                    }
+                },
+                new Utils.OnMenuOptionSelectedListener() {
+                    @Override
+                    public boolean onOptionSelected() {
+                        displayAthletePoints();
+                        return false;
+                    }
+                });
     }
 
-    /**
-     * Select a game to run
-     */
-    private void selectGameToRun() {
 
+    /**
+     * Select a type of game to run
+     */
+    private void selectTypeOfGame() {
+        Utils.runMenuFlow(GAME_MENU_TEXT, INVALID_GAME_MENU_SELECTION,
+                new Utils.OnMenuOptionSelectedListener() {
+                    @Override
+                    public boolean onOptionSelected() { // Select Swimming
+                        selectGameToRun(swimmingGames);
+                        return false;
+                    }
+                },
+                new Utils.OnMenuOptionSelectedListener() {
+                    @Override
+                    public boolean onOptionSelected() { // Select Cycling
+                        selectGameToRun(cyclingGames);
+                        return false;
+                    }
+                },
+                new Utils.OnMenuOptionSelectedListener() {
+                    @Override
+                    public boolean onOptionSelected() { // Select Running
+                        selectGameToRun(runningGames);
+                        return false;
+                    }
+                });
     }
 
     /**
@@ -101,7 +146,11 @@ public class Ozlympic {
      * Start the game
      */
     private void startGame() {
-
+        if (selectedGame == null) {
+            System.out.println("No game is currently selected.\n Please select a game");
+            return;
+        }
+        selectedGame.run();
     }
 
     /**
@@ -118,26 +167,37 @@ public class Ozlympic {
 
     }
 
-    /**
-     * Print the main menu
-     */
-    private void printMenu() {
-        System.out.print("Ozlympic Game\n" +
-                "===================================\n" +
-                "1. Select a game to run\n" +
-                "2. Predict the winner of the game\n" +
-                "3. Start the game\n" +
-                "4. Display the final results of all swimmingGames\n" +
-                "5. Display the points of all athletes\n" +
-                "6. Exit\n" +
-                "Enter an option: ");
-    }
+    private void selectGameToRun(final List<Game> games) {
+        StringBuilder sb = new StringBuilder("Select a game to run:\n");
 
-    /**
-     * Print alert message when the selection is invalid
-     */
-    private void alertInvalidSelection() {
-        System.out.println("The selection must be an integer within 1 to 6.");
+        for (int i = 0; i < games.size(); i++) {
+            sb.append(i + 1).append(". ").append(games.get(i).getId()).append("\n");
+        }
+
+        sb.append(games.size() + 1).append(". Back\n");
+        sb.append("Enter an option: ");
+
+        String menuText = sb.toString();
+
+        sb = new StringBuilder("The selection must be an integer within 1 to ");
+        sb.append(games.size() + 1).append(".\n");
+
+        String alertMsg = sb.toString();
+        Utils.OnMenuOptionSelectedListener[] listeners = new Utils.OnMenuOptionSelectedListener[games.size()];
+
+        for (int i = 0; i < games.size(); i++) {
+            final Game game = games.get(i);
+            listeners[i] = new Utils.OnMenuOptionSelectedListener() {
+                @Override
+                public boolean onOptionSelected() {
+                    selectedGame = game;
+                    System.out.println("Selected game ID: " + selectedGame.getId());
+                    return true;
+                }
+            };
+        }
+
+        Utils.runMenuFlow(menuText, alertMsg, listeners);
     }
 
     /**

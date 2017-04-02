@@ -1,4 +1,4 @@
-package com.hung;
+package com.hung.models;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,7 +35,8 @@ public class Game {
     public boolean run() {
         // The number of participating athletes is not enough
         if (!isReadyToPlay()) {
-            System.out.println("The game requires at least " + MIN_PARTICIPANTS + " athletes to run.");
+            System.out.println("The game requires at least " + MIN_PARTICIPANTS + " athletes to run.\n" +
+                    "Game cancelled.\n");
             return false;
         }
 
@@ -66,6 +67,7 @@ public class Game {
             return false;
         }
 
+        athlete.setGame(this);
         athletes.add(athlete);
         return true;
     }

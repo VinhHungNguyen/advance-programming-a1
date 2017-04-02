@@ -1,4 +1,4 @@
-package com.hung;
+package com.hung.models;
 
 /**
  * Created by hungnguyen on 4/2/17.
