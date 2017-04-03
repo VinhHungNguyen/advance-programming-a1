@@ -30,8 +30,8 @@ public abstract class Participant {
 
     @Override
     public String toString() {
-//        return new StringBuilder(getClass().getName()).append(" - ")
-        return new StringBuilder("#")
+        return new StringBuilder(getClass().getName()).append(" - ")
+//        return new StringBuilder("#")
                 .append(id).append(" - ")
                 .append(name).append(" - ")
                 .append(state).append(" - ")

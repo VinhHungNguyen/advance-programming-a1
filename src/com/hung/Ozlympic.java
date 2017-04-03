@@ -109,7 +109,6 @@ public class Ozlympic {
                 });
     }
 
-
     /**
      * Select a type of game to run
      */
@@ -142,16 +141,25 @@ public class Ozlympic {
      * Allow the user to predict the winner of that game
      */
     private void predictWinner() {
+        // No game is currently selected
         if (selectedGame == null) {
-            System.out.println("No game is currently selected.\n Please select a game and then run it.\n");
+            System.out.println("No game is currently selected.\n" +
+                    "Please select a game (option 1) and then run it (option 3).\n");
+            return;
+        }
+
+        // Selected game has not run yet.
+        if (!selectedGame.isDoneRunning()) {
+            System.out.println("Selected game has not run yet.\nPlease run the game (option 3) before predicting.\n");
             return;
         }
 
         List<Athlete> athletes = selectedGame.getAthletes();
-        StringBuilder sb = new StringBuilder("\nList of participants:");
+        StringBuilder sb = new StringBuilder("List of participants:\n");
 
         for (int i = 0; i < athletes.size(); i++) {
-            sb.append(i + 1).append(". ").append(athletes.get(i).toString());
+            Athlete a = athletes.get(i);
+            sb.append(i + 1).append(". ").append(a.getName()).append(" - ID: ").append(a.getId()).append("\n");
         }
 
         sb.append("Enter your prediction: ");
@@ -167,8 +175,12 @@ public class Ozlympic {
             final Athlete athlete = athletes.get(i);
             listeners[i] = new Utils.OnMenuOptionSelectedListener() {
                 @Override
-                public boolean onOptionSelected() {
-                    selectedGame.setPredictedAthleteId(athlete.getId());
+                public boolean onOptionSelected() { // Handle when an athlete is selected
+//                    selectedGame.setPredictedAthleteId(athlete.getId());
+//                    selectedGame.getOfficial().summarise(athletes);
+//                    selectedGame.reset();
+
+                    selectedGame.handlePrediction(athlete);
 
                     return true;
                 }
@@ -182,8 +194,9 @@ public class Ozlympic {
      * Start the game
      */
     private void startGame() {
+        // No game is currently selected
         if (selectedGame == null) {
-            System.out.println("No game is currently selected.\n Please select a game");
+            System.out.println("No game is currently selected.\nPlease select a game");
             return;
         }
         selectedGame.run();
@@ -232,6 +245,7 @@ public class Ozlympic {
                 public boolean onOptionSelected() {
                     selectedGame = game;
                     System.out.println("Selected game ID: " + selectedGame.getId());
+                    System.out.println("Now select 4 to go back to main menu, or select another game.");
                     return true;
                 }
             };
@@ -255,8 +269,7 @@ public class Ozlympic {
     private void makeHardCodedDataForOfficials() {
         // Hard coded text for officials
         String[][] officialStrings = {
-                {"Kyokushin", "Karate"}, {"Goju", "Karate"}, {"Shotokan", "Karate"}, {"Suzucho", "Karate"},
-                {"Shitoryu", "Karate"}
+                {"Red Alert", "EA"}, {"Diablo", "Blizzard"}, {"Assassin Creed", "Ubisoft"}, {"Sparrow", "Caribbean"}
         };
 
         // Setup officials
@@ -287,7 +300,9 @@ public class Ozlympic {
         };
         String[][] superAthleteStrings = {
                 {"Shinsengumi", "Kyoto"}, {"Hitokiri", "Tokyo"}, {"Hajime", "Okinawa"}, {"Aoshi", "Osaka"},
-                {"Nobunaga", "Fuji"}, {"Iga", "Shinobi"}, {"Kouga", "Shinobi"}
+                {"Nobunaga", "Fuji"}, {"Iga", "Shinobi"}, {"Kouga", "Shinobi"},
+                {"Bumblebee", "Autobot"}, {"Megatron", "Decepticon"}, {"Bruticus", "Conbaticon"},
+                {"Galvatron", "Decepticon"}, {"Grimlock", "Dinobot"}
         };
 
         // Setup swimmers
@@ -335,8 +350,8 @@ public class Ozlympic {
         Athlete[][] athletes = {
                 {superAthletes.get(0), superAthletes.get(1), superAthletes.get(2)},
                 {superAthletes.get(3), superAthletes.get(4), superAthletes.get(5)},
-                {superAthletes.get(6), superAthletes.get(0), superAthletes.get(3)},
-                {superAthletes.get(1), superAthletes.get(2), superAthletes.get(4)}
+                {superAthletes.get(6), superAthletes.get(7), superAthletes.get(8)},
+                {superAthletes.get(9), superAthletes.get(10), superAthletes.get(11)}
         };
 
         int numberOfEachType = athletes.length; // The number of each type of games
@@ -360,8 +375,9 @@ public class Ozlympic {
                 String gameId = idPrefix + String.format("%02d", id);
                 Game g = new Game(gameId);
 
-                // Add all super athletes
+                // Add all super athletes and official
                 g.addAllAthlete(athletes[j]);
+                g.setOfficial(officials.get(j % officials.size()));
 
                 // Add specific type athletes
                 for (int n = 0; n < j; n++) {

@@ -19,6 +19,9 @@ public class SuperAthlete extends Athlete {
         int range = 0;
         int min = 0;
 
+//        System.out.println(this);
+//        System.out.println(game.getId());
+
         if (game.getId().startsWith(Game.ID_PREFIX_SWIMMING)) {
             range = Game.RANGE_TIME_SWIMMING;
             min = Game.MIN_TIME_SWIMMING;
@@ -30,8 +33,7 @@ public class SuperAthlete extends Athlete {
             min = Game.MIN_TIME_RUNNING;
         }
 
-        return new Random(System.currentTimeMillis())
-                .nextInt(range) + min;
+        return new Random().nextInt(range) + min;
     }
 
     @Override

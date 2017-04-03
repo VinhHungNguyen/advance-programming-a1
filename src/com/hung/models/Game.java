@@ -27,9 +27,13 @@ public class Game {
     private String id;
     private Integer predictedAthleteId;
 
+    private boolean doneRunning;
+
     public Game(String id) {
         this.id = id;
         athletes = new ArrayList<>();
+        doneRunning = false;
+        predictedAthleteId = -1;
     }
 
     public boolean run() {
@@ -41,20 +45,12 @@ public class Game {
         }
 
         for (Athlete a : athletes) {
+            a.setGame(this);
             a.setPreviousAchieveTime(a.compete());
         }
 
-        Collections.sort(athletes,  new Comparator<Athlete>() {
-            @Override
-            public int compare(Athlete o1, Athlete o2) {
-                if (o1.getPreviousAchieveTime() < o2.getPreviousAchieveTime()) {
-                    return 1;
-                } else if (o1.getPreviousAchieveTime() > o2.getPreviousAchieveTime()) {
-                    return -1;
-                }
-                return 0;
-            }
-        });
+        doneRunning = true;
+        System.out.println("Game is running.\n");
 
         return true;
     }
@@ -87,7 +83,7 @@ public class Game {
             }
         }
 
-        athlete.setGame(this);
+//        athlete.setGame(this);
         athletes.add(athlete);
         return true;
     }
@@ -106,6 +102,20 @@ public class Game {
         return true;
     }
 
+    public void handlePrediction(Athlete predictedAthlete) {
+        this.predictedAthleteId = predictedAthlete.getId();
+        official.summarise(athletes);
+
+        // Achieved time of the predicted athlete is equal to the 1st place athlete => the same place => the winner
+        if (predictedAthlete.getPreviousAchieveTime() == athletes.get(0).getPreviousAchieveTime()) {
+            System.out.println("Congratulation! You have predicted the correct user.");
+        } else { // Otherwise
+            System.out.println("Your prediction is incorrect.");
+        }
+
+        reset();
+    }
+
     public boolean isReadyToPlay() {
         return athletes.size() >= MIN_PARTICIPANTS;
     }
@@ -120,6 +130,11 @@ public class Game {
         return sb.toString();
     }
 
+    private void reset() {
+        doneRunning = false;
+        predictedAthleteId = -1;
+    }
+
     public String getId() {
         return id;
     }
@@ -128,11 +143,23 @@ public class Game {
         return athletes;
     }
 
+    public Official getOfficial() {
+        return official;
+    }
+
+    public void setOfficial(Official official) {
+        this.official = official;
+    }
+
     public Integer getPredictedAthleteId() {
         return predictedAthleteId;
     }
 
     public void setPredictedAthleteId(Integer predictedAthleteId) {
         this.predictedAthleteId = predictedAthleteId;
+    }
+
+    public boolean isDoneRunning() {
+        return doneRunning;
     }
 }
