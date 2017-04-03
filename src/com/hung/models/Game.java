@@ -26,6 +26,7 @@ public class Game {
 
     private String id;
     private Integer predictedAthleteId;
+    private String lastResult;
 
     private boolean doneRunning;
 
@@ -104,7 +105,7 @@ public class Game {
 
     public void handlePrediction(Athlete predictedAthlete) {
         this.predictedAthleteId = predictedAthlete.getId();
-        official.summarise(athletes);
+        official.summarise(this);
 
         // Achieved time of the predicted athlete is equal to the 1st place athlete => the same place => the winner
         if (predictedAthlete.getPreviousAchieveTime() == athletes.get(0).getPreviousAchieveTime()) {
@@ -114,6 +115,15 @@ public class Game {
         }
 
         reset();
+    }
+
+    public boolean displayResult() {
+        if (lastResult == null || lastResult.isEmpty()) {
+            return false;
+        }
+
+        System.out.println(lastResult);
+        return true;
     }
 
     public boolean isReadyToPlay() {
@@ -161,5 +171,13 @@ public class Game {
 
     public boolean isDoneRunning() {
         return doneRunning;
+    }
+
+    public String getLastResult() {
+        return lastResult;
+    }
+
+    public void setLastResult(String lastResult) {
+        this.lastResult = lastResult;
     }
 }

@@ -3,9 +3,7 @@ package com.hung;
 import com.hung.models.*;
 import com.hung.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by hungnguyen on 4/1/17.
@@ -17,7 +15,7 @@ public class Ozlympic {
             "1. Select a game to run\n" +
             "2. Predict the winner of the game\n" +
             "3. Start the game\n" +
-            "4. Display the final results of all swimmingGames\n" +
+            "4. Display the final results of all games\n" +
             "5. Display the points of all athletes\n" +
             "6. Exit\n" +
             "Enter an option: ";
@@ -203,17 +201,59 @@ public class Ozlympic {
     }
 
     /**
-     * Display the final results of all swimmingGames
+     * Display the final results of all games
      */
     private void displayResults() {
+        List<Game> allGames = new ArrayList<>(swimmingGames);
+        allGames.addAll(cyclingGames);
+        allGames.addAll(runningGames);
 
+        boolean hasResult = false;
+        for (Game g : allGames) {
+            if (g.displayResult()) {
+                hasResult = true;
+            }
+        }
+
+        if (!hasResult) {
+            System.out.println("There is no result because no game has run yet.");
+        }
+
+        System.out.println();
     }
 
     /**
      * Display the points of all athletes
      */
     private void displayAthletePoints() {
+        List<Athlete> allAthletes = new ArrayList<>(swimmers);
+        allAthletes.addAll(cyclists);
+        allAthletes.addAll(sprinters);
+        allAthletes.addAll(superAthletes);
 
+        // Sorting the list of athletes according to their total points
+        Collections.sort(allAthletes,  new Comparator<Athlete>() {
+            @Override
+            public int compare(Athlete o1, Athlete o2) {
+                if (o1.getTotalPoint() < o2.getTotalPoint()) {
+                    return 1;
+                } else if (o1.getTotalPoint() > o2.getTotalPoint()) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
+
+        System.out.println("RANK:");
+        System.out.println("=======================");
+
+        for (int i = 0; i < allAthletes.size(); i++) {
+            Athlete a = allAthletes.get(i);
+            System.out.print("#" + (i + 1) + " ");
+            System.out.println(a.getName() + " - ID: " + a.getId() + " - Points: " + a.getTotalPoint());
+        }
+
+        System.out.println();
     }
 
     /**
