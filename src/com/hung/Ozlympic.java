@@ -69,42 +69,42 @@ public class Ozlympic {
      * Start the Ozlympic game
      */
     private void start() {
-        Utils.runMenuFlow(MAIN_MENU_TEXT, INVALID_MAIN_MENU_SELECTION,
-                new Utils.OnMenuOptionSelectedListener() {
-                    @Override
-                    public boolean onOptionSelected() {
-                        selectTypeOfGame();
-                        return false;
-                    }
-                },
-                new Utils.OnMenuOptionSelectedListener() {
-                    @Override
-                    public boolean onOptionSelected() {
-                        predictWinner();
-                        return false;
-                    }
-                },
-                new Utils.OnMenuOptionSelectedListener() {
-                    @Override
-                    public boolean onOptionSelected() {
-                        startGame();
-                        return false;
-                    }
-                },
-                new Utils.OnMenuOptionSelectedListener() {
-                    @Override
-                    public boolean onOptionSelected() {
-                        displayResults();
-                        return false;
-                    }
-                },
-                new Utils.OnMenuOptionSelectedListener() {
-                    @Override
-                    public boolean onOptionSelected() {
-                        displayAthletePoints();
-                        return false;
-                    }
-                });
+//        Utils.runMenuFlow(MAIN_MENU_TEXT, INVALID_MAIN_MENU_SELECTION,
+//                new Utils.OnMenuOptionSelectedListener() {
+//                    @Override
+//                    public boolean onOptionSelected() {
+//                        selectTypeOfGame();
+//                        return false;
+//                    }
+//                },
+//                new Utils.OnMenuOptionSelectedListener() {
+//                    @Override
+//                    public boolean onOptionSelected() {
+//                        predictWinner();
+//                        return false;
+//                    }
+//                },
+//                new Utils.OnMenuOptionSelectedListener() {
+//                    @Override
+//                    public boolean onOptionSelected() {
+//                        startGame();
+//                        return false;
+//                    }
+//                },
+//                new Utils.OnMenuOptionSelectedListener() {
+//                    @Override
+//                    public boolean onOptionSelected() {
+//                        displayResults();
+//                        return false;
+//                    }
+//                },
+//                new Utils.OnMenuOptionSelectedListener() {
+//                    @Override
+//                    public boolean onOptionSelected() {
+//                        displayAthletePoints();
+//                        return false;
+//                    }
+//                });
     }
 
     /**
