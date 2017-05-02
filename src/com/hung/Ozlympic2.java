@@ -8,6 +8,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -138,5 +141,36 @@ public class Ozlympic2 extends Application {
         return false;
     }
 
+    /**
+     * Write all game results to file from the beginning.
+     */
+    private void writeAllGameResultsToFile() {
+        File file = new File("gameResults.txt");
+        Writer writer = null;
+
+        try {
+            writer = new PrintWriter(file);
+            List<Game> games = new ArrayList<>();
+            games.addAll(cyclingGames);
+            games.addAll(runningGames);
+            games.addAll(swimmingGames);
+
+            for (Game g : games) {
+                writer.write(g.getGameResult());
+                writer.write("\n\n");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
 
