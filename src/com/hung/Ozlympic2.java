@@ -137,5 +137,6 @@ public class Ozlympic2 extends Application {
     private boolean loadParticipantsFromDatabase() {
         return false;
     }
+
 }
 

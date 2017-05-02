@@ -1,5 +1,6 @@
 package com.hung.models;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -27,6 +28,7 @@ public class Game {
     private String id;
     private String predictedAthleteId;
     private String lastResult;
+    private Calendar finishingDate;
 
     private boolean doneRunning;
 
@@ -105,6 +107,7 @@ public class Game {
 
     public void handlePrediction(Athlete predictedAthlete) {
         this.predictedAthleteId = predictedAthlete.getId();
+        finishingDate = Calendar.getInstance();
         official.summarise(this);
 
         // Achieved time of the predicted athlete is equal to the 1st place athlete => the same place => the winner
@@ -124,6 +127,20 @@ public class Game {
 
         System.out.println(lastResult);
         return true;
+    }
+
+    public String getGameResult() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
+        StringBuilder sb = new StringBuilder(id);
+        sb.append(", ").append(official.getId()).append(", ").append(sdf.format(finishingDate.getTime()));
+
+        for (Athlete a : athletes) {
+            sb.append("\n")
+                    .append(a.getId()).append(", ")
+                    .append(a.getPreviousAchieveTime()).append(", ")
+                    .append(a.getPreviousReceivedPoint());
+        }
+        return sb.toString();
     }
 
     public boolean isReadyToPlay() {
