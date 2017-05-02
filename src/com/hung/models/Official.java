@@ -13,7 +13,7 @@ public class Official extends Participant {
     public static final int SECOND_PLACE_REWARD = 2;
     public static final int THIRD_PLACE_REWARD = 1;
 
-    public Official(Integer id, String name, String state, int age) {
+    public Official(String id, String name, String state, int age) {
         super(id, name, state, age);
     }
 

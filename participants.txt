@@ -1,0 +1,12 @@
+Oz0001, officer, Kenshin, 21, WA
+Oz0002, sprinter, Uchiha, 35, VIC
+Oz0003, super, Ichigo, 24, NSW
+Oz0004, swimmer, Zoro, 30, TAS
+Oz0005, cyclist, Naruto, 21, WA
+Oz0006, sprinter, Luffy, 35, VIC
+Oz0007, super, Sanji, 24, NSW
+Oz0008, swimmer, Natsu, 30, TAS
+Oz0009, officer, Akatsuki, 21, WA
+Oz0010, cyclist, Madara, 35, VIC
+Oz0011, super, Kirito, 24, NSW
+Oz0012, swimmer, Keima, 30, TAS

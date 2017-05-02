@@ -5,13 +5,19 @@ package com.hung.models;
  */
 public abstract class Athlete extends Participant {
 
+    public static final String TYPE_OFFICER = "officer";
+    public static final String TYPE_SPRINTER = "sprinter";
+    public static final String TYPE_SUPER = "super";
+    public static final String TYPE_SWIMMER = "swimmer";
+    public static final String TYPE_CYCLIST = "cyclist";
+
     protected Game game;
 
     protected int totalPoint;
     protected int previousReceivedPoint;
     protected int previousAchieveTime;
 
-    public Athlete(Integer id, String name, String state, int age) {
+    public Athlete(String id, String name, String state, int age) {
         super(id, name, state, age);
 //        System.out.println(this);
     }

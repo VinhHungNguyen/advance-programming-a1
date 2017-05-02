@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public class Cyclist extends Athlete {
 
-    public Cyclist(Integer id, String name, String state, int age) {
+    public Cyclist(String id, String name, String state, int age) {
         super(id, name, state, age);
     }
 

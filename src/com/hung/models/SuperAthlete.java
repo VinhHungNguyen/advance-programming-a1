@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class SuperAthlete extends Athlete {
 
-    public SuperAthlete(Integer id, String name, String state, int age) {
+    public SuperAthlete(String id, String name, String state, int age) {
         super(id, name, state, age);
     }
 

@@ -62,7 +62,7 @@ public class Ozlympic {
         cyclingGames = new ArrayList<>();
         runningGames = new ArrayList<>();
 
-        makeHardCodedData();
+//        makeHardCodedData();
     }
 
     /**
@@ -297,137 +297,137 @@ public class Ozlympic {
     /**
      * Make hard coded data for the program
      */
-    private void makeHardCodedData() {
-        makeHardCodedDataForOfficials();
-        makeHardCodedDataForAthletes();
-        makeHardCodedDataForGames();
-    }
-
-    /**
-     * Make hard coded data for officials
-     */
-    private void makeHardCodedDataForOfficials() {
-        // Hard coded text for officials
-        String[][] officialStrings = {
-                {"Red Alert", "EA"}, {"Diablo", "Blizzard"}, {"Assassin Creed", "Ubisoft"}, {"Sparrow", "Caribbean"}
-        };
-
-        // Setup officials
-        for (int i = 0; i < officialStrings.length; i++) {
-            String[] officialData = officialStrings[i];
-            int age = 30 + i;
-            officials.add(new Official(participantCount, officialData[0], officialData[1], age));
-            participantCount++;
-        }
-    }
-
-    /**
-     * Make hard coded data for athletes
-     */
-    private void makeHardCodedDataForAthletes() {
-        // Hard coded text for athletes
-        String[][] swimmerStrings = {
-                {"Donald", "VIC"}, {"Trump", "VIC"}, {"Barrack", "TAS"}, {"Obama", "TAS"},
-                {"Bill", "NSW"}, {"Gates", "NSW"}, {"Steve", "QLD"}, {"Jobs", "QLD"}
-        };
-        String[][] cyclistStrings = {
-                {"Beauty Name", "NSW"}, {"Strange Name", "QLD"}, {"His Name", "QLD"}, {"Who", "NSW"},
-                {"Gengar", "Pokemon"}, {"Dragonite", "Pokemon"}, {"Rayquaza", "Pokemon"}
-        };
-        String[][] sprinterStrings = {
-                {"Kyokushin", "Karate"}, {"Goju", "Karate"}, {"Shotokan", "Karate"}, {"Suzucho", "Karate"},
-                {"Shitoryu", "Karate"}
-        };
-        String[][] superAthleteStrings = {
-                {"Shinsengumi", "Kyoto"}, {"Hitokiri", "Tokyo"}, {"Hajime", "Okinawa"}, {"Aoshi", "Osaka"},
-                {"Nobunaga", "Fuji"}, {"Iga", "Shinobi"}, {"Kouga", "Shinobi"},
-                {"Bumblebee", "Autobot"}, {"Megatron", "Decepticon"}, {"Bruticus", "Conbaticon"},
-                {"Galvatron", "Decepticon"}, {"Grimlock", "Dinobot"}
-        };
-
-        // Setup swimmers
-        for (int i = 0; i < swimmerStrings.length; i++) {
-            String[] swimmerData = swimmerStrings[i];
-            int age = 20 + i;
-            swimmers.add(new Swimmer(participantCount, swimmerData[0], swimmerData[1], age));
-            participantCount++;
-        }
-
-        // Setup cyclists
-        for (int i = 0; i < cyclistStrings.length; i++) {
-            String[] cyclistData = cyclistStrings[i];
-            int age = 20 + i;
-            cyclists.add(new Cyclist(participantCount, cyclistData[0], cyclistData[1], age));
-            participantCount++;
-        }
-
-        // Setup sprinters
-        for (int i = 0; i < sprinterStrings.length; i++) {
-            String[] sprinterData = sprinterStrings[i];
-            int age = 20 + i;
-            sprinters.add(new Sprinter(participantCount, sprinterData[0], sprinterData[1], age));
-            participantCount++;
-        }
-
-        // Setup super athletes
-        for (int i = 0; i < superAthleteStrings.length; i++) {
-            String[] superAthleteData = superAthleteStrings[i];
-            int age = 20 + i;
-            superAthletes.add(new SuperAthlete(participantCount, superAthleteData[0], superAthleteData[1], age));
-            participantCount++;
-        }
-    }
-
-    /**
-     * Make hard coded data for games
-     */
-    private void makeHardCodedDataForGames() {
-        int id = 0;
-        List[] allGames = {swimmingGames, cyclingGames, runningGames};
-        String[] idPrefixes = {Game.ID_PREFIX_SWIMMING, Game.ID_PREFIX_CYCLING, Game.ID_PREFIX_RUNNING};
-
-        // Hard coded super athletes to add to each games.
-        Athlete[][] athletes = {
-                {superAthletes.get(0), superAthletes.get(1), superAthletes.get(2)},
-                {superAthletes.get(3), superAthletes.get(4), superAthletes.get(5)},
-                {superAthletes.get(6), superAthletes.get(7), superAthletes.get(8)},
-                {superAthletes.get(9), superAthletes.get(10), superAthletes.get(11)}
-        };
-
-        int numberOfEachType = athletes.length; // The number of each type of games
-
-        // Setup games
-        for (int i = 0; i < allGames.length; i++) {
-            List<Game> games = allGames[i];
-            String idPrefix = idPrefixes[i];
-            List moreAthletes = null; // Specific type athletes to add beside the super athletes above
-
-            if (idPrefix.equals(Game.ID_PREFIX_SWIMMING)) {
-                moreAthletes = swimmers;
-            } else if (idPrefix.equals(Game.ID_PREFIX_CYCLING)) {
-                moreAthletes = cyclists;
-            } else if (idPrefix.equals(Game.ID_PREFIX_RUNNING)) {
-                moreAthletes = sprinters;
-            }
-
-            // Setup each game for a type of game
-            for (int j = 0; j < numberOfEachType; j++) {
-                String gameId = idPrefix + String.format("%02d", id);
-                Game g = new Game(gameId);
-
-                // Add all super athletes and official
-                g.addAllAthlete(athletes[j]);
-                g.setOfficial(officials.get(j % officials.size()));
-
-                // Add specific type athletes
-                for (int n = 0; n < j; n++) {
-                    g.addAthlete((Athlete) moreAthletes.get(n));
-                }
-
-//                System.out.println(g.toString());
-                games.add(g);
-                id++;
-            }
-        }
-    }
+//    private void makeHardCodedData() {
+//        makeHardCodedDataForOfficials();
+//        makeHardCodedDataForAthletes();
+//        makeHardCodedDataForGames();
+//    }
+//
+//    /**
+//     * Make hard coded data for officials
+//     */
+//    private void makeHardCodedDataForOfficials() {
+//        // Hard coded text for officials
+//        String[][] officialStrings = {
+//                {"Red Alert", "EA"}, {"Diablo", "Blizzard"}, {"Assassin Creed", "Ubisoft"}, {"Sparrow", "Caribbean"}
+//        };
+//
+//        // Setup officials
+//        for (int i = 0; i < officialStrings.length; i++) {
+//            String[] officialData = officialStrings[i];
+//            int age = 30 + i;
+//            officials.add(new Official(participantCount, officialData[0], officialData[1], age));
+//            participantCount++;
+//        }
+//    }
+//
+//    /**
+//     * Make hard coded data for athletes
+//     */
+//    private void makeHardCodedDataForAthletes() {
+//        // Hard coded text for athletes
+//        String[][] swimmerStrings = {
+//                {"Donald", "VIC"}, {"Trump", "VIC"}, {"Barrack", "TAS"}, {"Obama", "TAS"},
+//                {"Bill", "NSW"}, {"Gates", "NSW"}, {"Steve", "QLD"}, {"Jobs", "QLD"}
+//        };
+//        String[][] cyclistStrings = {
+//                {"Beauty Name", "NSW"}, {"Strange Name", "QLD"}, {"His Name", "QLD"}, {"Who", "NSW"},
+//                {"Gengar", "Pokemon"}, {"Dragonite", "Pokemon"}, {"Rayquaza", "Pokemon"}
+//        };
+//        String[][] sprinterStrings = {
+//                {"Kyokushin", "Karate"}, {"Goju", "Karate"}, {"Shotokan", "Karate"}, {"Suzucho", "Karate"},
+//                {"Shitoryu", "Karate"}
+//        };
+//        String[][] superAthleteStrings = {
+//                {"Shinsengumi", "Kyoto"}, {"Hitokiri", "Tokyo"}, {"Hajime", "Okinawa"}, {"Aoshi", "Osaka"},
+//                {"Nobunaga", "Fuji"}, {"Iga", "Shinobi"}, {"Kouga", "Shinobi"},
+//                {"Bumblebee", "Autobot"}, {"Megatron", "Decepticon"}, {"Bruticus", "Conbaticon"},
+//                {"Galvatron", "Decepticon"}, {"Grimlock", "Dinobot"}
+//        };
+//
+//        // Setup swimmers
+//        for (int i = 0; i < swimmerStrings.length; i++) {
+//            String[] swimmerData = swimmerStrings[i];
+//            int age = 20 + i;
+//            swimmers.add(new Swimmer(participantCount, swimmerData[0], swimmerData[1], age));
+//            participantCount++;
+//        }
+//
+//        // Setup cyclists
+//        for (int i = 0; i < cyclistStrings.length; i++) {
+//            String[] cyclistData = cyclistStrings[i];
+//            int age = 20 + i;
+//            cyclists.add(new Cyclist(participantCount, cyclistData[0], cyclistData[1], age));
+//            participantCount++;
+//        }
+//
+//        // Setup sprinters
+//        for (int i = 0; i < sprinterStrings.length; i++) {
+//            String[] sprinterData = sprinterStrings[i];
+//            int age = 20 + i;
+//            sprinters.add(new Sprinter(participantCount, sprinterData[0], sprinterData[1], age));
+//            participantCount++;
+//        }
+//
+//        // Setup super athletes
+//        for (int i = 0; i < superAthleteStrings.length; i++) {
+//            String[] superAthleteData = superAthleteStrings[i];
+//            int age = 20 + i;
+//            superAthletes.add(new SuperAthlete(participantCount, superAthleteData[0], superAthleteData[1], age));
+//            participantCount++;
+//        }
+//    }
+//
+//    /**
+//     * Make hard coded data for games
+//     */
+//    private void makeHardCodedDataForGames() {
+//        int id = 0;
+//        List[] allGames = {swimmingGames, cyclingGames, runningGames};
+//        String[] idPrefixes = {Game.ID_PREFIX_SWIMMING, Game.ID_PREFIX_CYCLING, Game.ID_PREFIX_RUNNING};
+//
+//        // Hard coded super athletes to add to each games.
+//        Athlete[][] athletes = {
+//                {superAthletes.get(0), superAthletes.get(1), superAthletes.get(2)},
+//                {superAthletes.get(3), superAthletes.get(4), superAthletes.get(5)},
+//                {superAthletes.get(6), superAthletes.get(7), superAthletes.get(8)},
+//                {superAthletes.get(9), superAthletes.get(10), superAthletes.get(11)}
+//        };
+//
+//        int numberOfEachType = athletes.length; // The number of each type of games
+//
+//        // Setup games
+//        for (int i = 0; i < allGames.length; i++) {
+//            List<Game> games = allGames[i];
+//            String idPrefix = idPrefixes[i];
+//            List moreAthletes = null; // Specific type athletes to add beside the super athletes above
+//
+//            if (idPrefix.equals(Game.ID_PREFIX_SWIMMING)) {
+//                moreAthletes = swimmers;
+//            } else if (idPrefix.equals(Game.ID_PREFIX_CYCLING)) {
+//                moreAthletes = cyclists;
+//            } else if (idPrefix.equals(Game.ID_PREFIX_RUNNING)) {
+//                moreAthletes = sprinters;
+//            }
+//
+//            // Setup each game for a type of game
+//            for (int j = 0; j < numberOfEachType; j++) {
+//                String gameId = idPrefix + String.format("%02d", id);
+//                Game g = new Game(gameId);
+//
+//                // Add all super athletes and official
+//                g.addAllAthlete(athletes[j]);
+//                g.setOfficial(officials.get(j % officials.size()));
+//
+//                // Add specific type athletes
+//                for (int n = 0; n < j; n++) {
+//                    g.addAthlete((Athlete) moreAthletes.get(n));
+//                }
+//
+////                System.out.println(g.toString());
+//                games.add(g);
+//                id++;
+//            }
+//        }
+//    }
 }

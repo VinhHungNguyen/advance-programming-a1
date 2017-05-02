@@ -5,12 +5,12 @@ package com.hung.models;
  */
 public abstract class Participant {
 
-    protected Integer id;
+    protected String id;
     protected String name;
     protected String state;
     protected int age;
 
-    public Participant(Integer id, String name, String state, int age) {
+    public Participant(String id, String name, String state, int age) {
         this.id = id;
         this.name = name;
         this.state = state;
@@ -27,11 +27,11 @@ public abstract class Participant {
                 .append(age).toString();
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

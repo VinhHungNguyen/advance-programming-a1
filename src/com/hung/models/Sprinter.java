@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class Sprinter extends Athlete {
 
-    public Sprinter(Integer id, String name, String state, int age) {
+    public Sprinter(String id, String name, String state, int age) {
         super(id, name, state, age);
     }
 

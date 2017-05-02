@@ -25,7 +25,7 @@ public class Game {
     private Official official;
 
     private String id;
-    private Integer predictedAthleteId;
+    private String predictedAthleteId;
     private String lastResult;
 
     private boolean doneRunning;
@@ -34,7 +34,7 @@ public class Game {
         this.id = id;
         athletes = new ArrayList<>();
         doneRunning = false;
-        predictedAthleteId = -1;
+        predictedAthleteId = "";
     }
 
     public boolean run() {
@@ -142,7 +142,7 @@ public class Game {
 
     private void reset() {
         doneRunning = false;
-        predictedAthleteId = -1;
+        predictedAthleteId = "";
     }
 
     public String getId() {
@@ -161,11 +161,11 @@ public class Game {
         this.official = official;
     }
 
-    public Integer getPredictedAthleteId() {
+    public String getPredictedAthleteId() {
         return predictedAthleteId;
     }
 
-    public void setPredictedAthleteId(Integer predictedAthleteId) {
+    public void setPredictedAthleteId(String predictedAthleteId) {
         this.predictedAthleteId = predictedAthleteId;
     }
 
