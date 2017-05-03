@@ -2,12 +2,14 @@ package hung.views;
 
 import hung.models.Athlete;
 import hung.models.Official;
+import hung.models.Participant;
 import hung.utils.ViewUtils;
 import hung.viewmodels.MainViewModel;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
@@ -109,6 +111,9 @@ public class MainPane extends Pane {
         athleteListView.setPrefWidth(listViewWidth);
         athleteListView.setPrefHeight(listViewWidth);
 
+        setParticipantCellFactory(officerListView);
+        setParticipantCellFactory(athleteListView);
+
         newGamePane = new FlowPane();
         newGamePane.prefWidthProperty().bind(widthProperty());
         newGamePane.prefHeightProperty().bind(heightProperty());
@@ -158,10 +163,33 @@ public class MainPane extends Pane {
         });
     }
 
+    /**
+     * Handle New Game button click
+     */
     private void newGameButtonClicked() {
 //        menuTransition.play();
         fadeInTransition.setNode(newGamePane);
         fadeInTransition.play();
         getChildren().add(newGamePane);
+    }
+
+    /**
+     * Setup cell factory for list view with Participant type
+     * @param listView The list view to set cell factory
+     * @param <T> Generic type extending Participant
+     */
+    private <T extends Participant> void setParticipantCellFactory(ListView<T> listView) {
+        listView.setCellFactory(param -> new ListCell<T>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText("");
+                } else {
+                    setText(item.getName());
+                }
+            }
+        });
     }
 }
