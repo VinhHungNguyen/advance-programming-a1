@@ -1,4 +1,4 @@
-package com.hung.utils;
+package hung.utils;
 
 import java.util.Scanner;
 

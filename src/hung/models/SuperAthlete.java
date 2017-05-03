@@ -1,7 +1,4 @@
-package com.hung.models;
-
-import com.hung.models.Athlete;
-import com.hung.models.Game;
+package hung.models;
 
 import java.util.Random;
 

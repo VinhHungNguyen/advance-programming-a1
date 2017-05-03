@@ -1,4 +1,4 @@
-package com.hung.models;
+package hung.models;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -21,6 +21,11 @@ public class Game {
     public static final String ID_PREFIX_SWIMMING = "S";
     public static final String ID_PREFIX_CYCLING = "C";
     public static final String ID_PREFIX_RUNNING = "R";
+
+
+    public static final String TYPE_SWIMMING = "Swimming";
+    public static final String TYPE_CYCLING = "Cycling";
+    public static final String TYPE_RUNNING = "Running";
 
     private List<Athlete> athletes;
     private Official official;

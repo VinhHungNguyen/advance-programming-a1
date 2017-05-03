@@ -1,7 +1,7 @@
-package com.hung;
+package hung;
 
-import com.hung.models.*;
-import com.hung.utils.Utils;
+import hung.utils.Utils;
+import hung.models.*;
 
 import java.util.*;
 

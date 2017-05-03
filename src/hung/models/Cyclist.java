@@ -1,4 +1,4 @@
-package com.hung.models;
+package hung.models;
 
 import java.util.Random;
 

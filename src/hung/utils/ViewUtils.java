@@ -1,4 +1,4 @@
-package com.hung.utils;
+package hung.utils;
 
 /**
  * Created by hungnguyen on 5/1/17.

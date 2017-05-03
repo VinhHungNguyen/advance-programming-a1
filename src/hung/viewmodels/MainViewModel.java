@@ -1,59 +1,36 @@
-package com.hung;
+package hung.viewmodels;
 
-import com.hung.models.*;
-import com.hung.utils.ViewUtils;
-import com.hung.views.MainMenuPane;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import hung.models.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by hungnguyen on 5/1/17.
+ * Created by hungnguyen on 5/3/17.
  */
-public class Ozlympic2 extends Application {
+public class MainViewModel {
 
-    private MainMenuPane mainMenuPane;
+    private ObservableList<Swimmer> swimmers;
+    private ObservableList<Cyclist> cyclists;
+    private ObservableList<Sprinter> sprinters;
+    private ObservableList<SuperAthlete> superAthletes;
 
-    private List<Swimmer> swimmers;
-    private List<Cyclist> cyclists;
-    private List<Sprinter> sprinters;
-    private List<SuperAthlete> superAthletes;
+    private ObservableList<Official> officials;
 
-    private List<Official> officials;
+//    private List<Game> swimmingGames;
+//    private List<Game> cyclingGames;
+//    private List<Game> runningGames;
+    private ObservableList<Game> games;
 
-    private List<Game> swimmingGames;
-    private List<Game> cyclingGames;
-    private List<Game> runningGames;
+    private ObservableList<String> gameTypes;
 
-    public Ozlympic2() {
-    }
-
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public MainViewModel() {
         loadParticipants();
-
-
-        mainMenuPane = new MainMenuPane();
-
-        Scene scene = new Scene(mainMenuPane, ViewUtils.WINDOW_WIDTH, ViewUtils.WINDOW_HEIGHT);
-
-        // Setup stage
-        primaryStage.setTitle("Ozlympic");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
     }
 
     /**
@@ -61,16 +38,19 @@ public class Ozlympic2 extends Application {
      * available, the participants will be loaded from "participants.txt".
      */
     private void loadParticipants() {
-        swimmers = new ArrayList<>();
-        cyclists = new ArrayList<>();
-        sprinters = new ArrayList<>();
-        superAthletes = new ArrayList<>();
+        swimmers = FXCollections.observableArrayList();
+        cyclists = FXCollections.observableArrayList();
+        sprinters = FXCollections.observableArrayList();
+        superAthletes = FXCollections.observableArrayList();
 
-        officials = new ArrayList<>();
+        officials = FXCollections.observableArrayList();
 
-        swimmingGames = new ArrayList<>();
-        cyclingGames = new ArrayList<>();
-        runningGames = new ArrayList<>();
+//        swimmingGames = new ArrayList<>();
+//        cyclingGames = new ArrayList<>();
+//        runningGames = new ArrayList<>();
+        games = FXCollections.observableArrayList();
+
+        gameTypes = FXCollections.observableArrayList(Game.TYPE_SWIMMING, Game.TYPE_CYCLING, Game.TYPE_RUNNING);
 
         if (loadParticipantsFromDatabase()) {
             return;
@@ -150,10 +130,10 @@ public class Ozlympic2 extends Application {
 
         try {
             writer = new PrintWriter(file);
-            List<Game> games = new ArrayList<>();
-            games.addAll(cyclingGames);
-            games.addAll(runningGames);
-            games.addAll(swimmingGames);
+//            List<Game> games = new ArrayList<>();
+//            games.addAll(cyclingGames);
+//            games.addAll(runningGames);
+//            games.addAll(swimmingGames);
 
             for (Game g : games) {
                 writer.write(g.getGameResult());
@@ -172,5 +152,32 @@ public class Ozlympic2 extends Application {
             }
         }
     }
-}
 
+    public ObservableList<Swimmer> getSwimmers() {
+        return swimmers;
+    }
+
+    public ObservableList<Cyclist> getCyclists() {
+        return cyclists;
+    }
+
+    public ObservableList<Sprinter> getSprinters() {
+        return sprinters;
+    }
+
+    public ObservableList<SuperAthlete> getSuperAthletes() {
+        return superAthletes;
+    }
+
+    public ObservableList<Official> getOfficials() {
+        return officials;
+    }
+
+    public ObservableList<Game> getGames() {
+        return games;
+    }
+
+    public ObservableList<String> getGameTypes() {
+        return gameTypes;
+    }
+}
