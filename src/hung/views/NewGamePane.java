@@ -5,16 +5,20 @@ import hung.models.Official;
 import hung.models.Participant;
 import hung.utils.ViewUtils;
 import hung.viewmodels.MainViewModel;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
+import java.awt.*;
 
 /**
  * Created by hungnguyen on 5/4/17.
@@ -38,15 +42,25 @@ public class NewGamePane extends FlowPane {
         HBox listViewContainer = new HBox();
 //        listViewContainer.setStyle("-fx-background-color: #000000;");
         listViewContainer.setAlignment(Pos.CENTER);
-        listViewContainer.setPadding(new Insets(10, 10, 10, 10));
         listViewContainer.setSpacing(10);
         listViewContainer.getChildren().addAll(gameTypeListView, officerListView, athleteListView);
+
+        // Setup instruction label
+        Label instructionLabel =
+                new Label("Hold Ctrl (on Window) or Command (on Mac) + left click\nto select multiple athletes");
+//        instructionLabel.setTextFill(Color.WHITE);
+//        instructionLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
+        instructionLabel.setStyle(
+                "-fx-text-alignment: center; " +
+                        "-fx-font-size: 18px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-text-fill: rgba(255,255,255);");
 
 
         // The Ok button to enter a game
         Button okButton = new Button(" Ok ");
         okButton.setOnAction(event -> {
-
+            okButtonClicked();
         });
 
         // The Back button to exit the New Game scene
@@ -58,7 +72,6 @@ public class NewGamePane extends FlowPane {
         // The bottom bar containing Back and Ok buttons
         BorderPane bottomBar = new BorderPane();
         bottomBar.prefWidthProperty().bind(listViewContainer.widthProperty());
-        bottomBar.setPadding(new Insets(10, 10, 10, 10));
         bottomBar.setLeft(backButton);
         bottomBar.setRight(okButton);
 
@@ -66,9 +79,9 @@ public class NewGamePane extends FlowPane {
         prefHeightProperty().bind(parentPane.heightProperty());
 
         setOrientation(Orientation.VERTICAL);
-        setStyle("-fx-background-color: #99999999;");
+        setStyle("-fx-background-color: rgba(0,0,0,0.5);");
         setAlignment(Pos.CENTER);
-        getChildren().addAll(listViewContainer, bottomBar);
+        getChildren().addAll(listViewContainer, instructionLabel, bottomBar);
     }
 
     /**
@@ -100,6 +113,16 @@ public class NewGamePane extends FlowPane {
 
             athleteListView.setItems(viewModel.getAthletesByType(newValue));
         });
+
+        athleteListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    }
+
+    /**
+     * Handle ok button clicked
+     */
+    private void okButtonClicked() {
+        Official official = officerListView.getSelectionModel().getSelectedItem();
+
     }
 
     /**
