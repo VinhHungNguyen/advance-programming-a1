@@ -1,5 +1,7 @@
 package hung.utils;
 
+import hung.models.Participant;
+
 import java.util.Scanner;
 
 /**
@@ -50,6 +52,14 @@ public class Utils {
             }
 
         } while (true);
+    }
+
+    public static <T extends Participant> void printParticipants(String label, T... participants) {
+        System.out.print(label + ": ");
+        for (T p : participants) {
+            System.out.print(p.getName() + ", ");
+        }
+        System.out.println();
     }
 
     public interface OnMenuOptionSelectedListener {

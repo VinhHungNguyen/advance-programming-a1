@@ -22,18 +22,18 @@ public class MainViewModel {
 
     private ObservableList<Official> officials;
 
-    private ObservableList<Athlete> athletesOfType;
-    private ObservableList<Athlete> selectedAthletes;
-
 //    private List<Game> swimmingGames;
 //    private List<Game> cyclingGames;
 //    private List<Game> runningGames;
     private ObservableList<Game> games;
 
-    private ObservableList<String> gameTypes;
-
     public MainViewModel() {
         loadParticipants();
+
+//        swimmingGames = new ArrayList<>();
+//        cyclingGames = new ArrayList<>();
+//        runningGames = new ArrayList<>();
+        games = FXCollections.observableArrayList();
     }
 
     /**
@@ -47,16 +47,6 @@ public class MainViewModel {
         superAthletes = FXCollections.observableArrayList();
 
         officials = FXCollections.observableArrayList();
-
-        athletesOfType = FXCollections.observableArrayList();
-        selectedAthletes = FXCollections.observableArrayList();
-
-//        swimmingGames = new ArrayList<>();
-//        cyclingGames = new ArrayList<>();
-//        runningGames = new ArrayList<>();
-        games = FXCollections.observableArrayList();
-
-        gameTypes = FXCollections.observableArrayList(Game.TYPE_SWIMMING, Game.TYPE_CYCLING, Game.TYPE_RUNNING);
 
         if (loadParticipantsFromDatabase()) {
             return;
@@ -159,67 +149,6 @@ public class MainViewModel {
         }
     }
 
-    /**
-     * Get all athletes who can play a given type of game.
-     * @param type The given type of game
-     * @return All athletes who can play that type of game
-     */
-    public ObservableList<Athlete> updateAthletesByType(String type) {
-        selectedAthletes.clear();
-        if (type.equals(Game.TYPE_SWIMMING)) {
-            return getSwimmableAthletes();
-        }
-        if (type.equals(Game.TYPE_CYCLING)) {
-            return getCyclableAthletes();
-        }
-        if (type.equals(Game.TYPE_RUNNING)) {
-            return getRunnableAthletes();
-        }
-        return null;
-    }
-
-    /**
-     * Get all athletes who can swim
-     * @return All athletes who can swim
-     */
-    public ObservableList<Athlete> getSwimmableAthletes() {
-        return getAthletesOfAGameType(swimmers);
-    }
-
-    /**
-     * Get all athletes who can cycle
-     * @return All athletes who can cycle
-     */
-    public ObservableList<Athlete> getCyclableAthletes() {
-        return getAthletesOfAGameType(cyclists);
-    }
-
-    /**
-     * Get all athletes who can run
-     * @return All athletes who can run
-     */
-    public ObservableList<Athlete> getRunnableAthletes() {
-        return getAthletesOfAGameType(sprinters);
-    }
-
-    /**
-     * Get all athlete who can play the same type of game as the given list of athletes, including themselves
-     * @param a The given list of athletes
-     * @param <T> The type of the given athletes
-     * @return All athlete who can play the same type of game as the given athletes
-     */
-    private <T extends Athlete> ObservableList<Athlete> getAthletesOfAGameType(ObservableList<T> a) {
-        athletesOfType.clear();
-        athletesOfType.addAll(a);
-        athletesOfType.addAll(superAthletes);
-        return athletesOfType;
-    }
-
-    public void updateSelectedAthletes(ObservableList<Athlete> selectedAthletes) {
-        this.selectedAthletes.clear();
-        this.selectedAthletes.addAll(selectedAthletes);
-    }
-
     public ObservableList<Swimmer> getSwimmers() {
         return swimmers;
     }
@@ -242,17 +171,5 @@ public class MainViewModel {
 
     public ObservableList<Game> getGames() {
         return games;
-    }
-
-    public ObservableList<String> getGameTypes() {
-        return gameTypes;
-    }
-
-    public ObservableList<Athlete> getAthletesOfType() {
-        return athletesOfType;
-    }
-
-    public ObservableList<Athlete> getSelectedAthletes() {
-        return selectedAthletes;
     }
 }

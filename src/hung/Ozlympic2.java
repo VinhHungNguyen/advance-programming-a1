@@ -2,18 +2,9 @@ package hung;
 
 import hung.utils.ViewUtils;
 import hung.views.MainPane;
-import hung.models.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created by hungnguyen on 5/1/17.

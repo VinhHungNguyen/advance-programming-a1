@@ -4,14 +4,15 @@ import hung.models.Athlete;
 import hung.models.Official;
 import hung.models.Participant;
 import hung.utils.ViewUtils;
-import hung.viewmodels.MainViewModel;
+import hung.viewmodels.NewGameViewModel;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 /**
  * Created by hungnguyen on 5/4/17.
@@ -25,9 +26,9 @@ public class NewGamePane extends FlowPane {
     private ListView<Athlete> athleteListView;
     private ListView<Athlete> selectedAthleteListView;
 
-    private MainViewModel viewModel;
+    private NewGameViewModel viewModel;
 
-    public NewGamePane(Pane parentPane, MainViewModel viewModel) {
+    public NewGamePane(Pane parentPane, NewGameViewModel viewModel) {
         this.viewModel = viewModel;
 
         GridPane listViewContainer = setupListViews();
@@ -94,12 +95,6 @@ public class NewGamePane extends FlowPane {
         athleteListView.setOnMouseClicked(event -> {
             ObservableList<Athlete> selectedAthletes = athleteListView.getSelectionModel().getSelectedItems();
             viewModel.updateSelectedAthletes(selectedAthletes);
-
-//            System.out.print("Selected Athletes: ");
-//            for (Athlete a : selectedAthletes) {
-//                System.out.print(a.getName() + ", ");
-//            }
-//            System.out.println();
         });
 
 
@@ -184,14 +179,7 @@ public class NewGamePane extends FlowPane {
         ObservableList<Athlete> athletes = athleteListView.getSelectionModel().getSelectedItems();
         Athlete predictedAthlete = selectedAthleteListView.getSelectionModel().getSelectedItem();
 
-//        selectedAthleteListView.setItems(athletes);
 
-//        System.out.println("Selected Officer: " + official);
-//        System.out.print("Selected Athletes: ");
-//        for (Athlete a : athletes) {
-//            System.out.print(a + ", ");
-//        }
-//        System.out.println();
     }
 
     /**

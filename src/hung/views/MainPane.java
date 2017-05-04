@@ -1,9 +1,12 @@
 package hung.views;
 
+import hung.models.Athlete;
+import hung.models.Official;
+import hung.routers.MainRouter;
 import hung.utils.ViewUtils;
 import hung.viewmodels.MainViewModel;
-import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -25,19 +28,17 @@ public class MainPane extends Pane {
     private Button historyButton;
     private Button leaderboardButton;
 
-    private NewGamePane newGamePane;
-
-    private FadeTransition fadeInTransition;
     private TranslateTransition menuTransition;
     private boolean menuTransitionReversed;
 
     private MainViewModel viewModel;
+    private MainRouter mainRouter;
 
     public MainPane() {
         super();
 
         viewModel = new MainViewModel();
-        fadeInTransition = ViewUtils.makeFadeTransition(500, 0.0d, 1.0d);
+        mainRouter = new MainRouter();
 
         setupMenuView();
 
@@ -108,12 +109,7 @@ public class MainPane extends Pane {
      * Handle New Game button click
      */
     private void newGameButtonClicked() {
-        if (newGamePane == null) {
-            newGamePane = new NewGamePane(this, viewModel);
-        }
-
-//        menuTransition.play();
-        ViewUtils.fadeIn(fadeInTransition, newGamePane, this);
+        mainRouter.toNewGame(this, viewModel);
     }
 
     /**
@@ -126,5 +122,9 @@ public class MainPane extends Pane {
      * Handle Leaderboard button click
      */
     private void leaderboardButtonClicked() {
+    }
+
+    public void runNewGame(Official officer, ObservableList<Athlete> athletes, Athlete predictedAthlete) {
+
     }
 }
