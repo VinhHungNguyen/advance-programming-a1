@@ -37,9 +37,9 @@ public class MainPane extends Pane {
         super();
 
         viewModel = new MainViewModel();
+        fadeInTransition = ViewUtils.makeFadeTransition(500, 0.0d, 1.0d);
 
         setupMenuView();
-        setupFadeTransition();
 
         getChildren().addAll(menuPane);
         setupMenuTransition();
@@ -81,17 +81,6 @@ public class MainPane extends Pane {
     }
 
     /**
-     * Setup fade transition
-     */
-    private void setupFadeTransition() {
-        fadeInTransition = new FadeTransition();
-        fadeInTransition.setDuration(Duration.millis(500));
-        fadeInTransition.setFromValue(0.0d);
-        fadeInTransition.setToValue(1.0d);
-        fadeInTransition.setCycleCount(1);
-    }
-
-    /**
      * Setup menu transition
      */
     private void setupMenuTransition() {
@@ -124,9 +113,7 @@ public class MainPane extends Pane {
         }
 
 //        menuTransition.play();
-        fadeInTransition.setNode(newGamePane);
-        fadeInTransition.play();
-        getChildren().add(newGamePane);
+        ViewUtils.fadeIn(fadeInTransition, newGamePane, this);
     }
 
     /**

@@ -34,7 +34,7 @@ public class NewGamePane extends FlowPane {
 
         // Setup instruction label
         Label instructionLabel =
-                new Label("Hold Ctrl (on Window) or Command (on Mac) + left click\nto select multiple athletes");
+                new Label("Hold Ctrl (on Window) or Command (on Mac) + left click to select multiple athletes");
         setupLabelStyle(instructionLabel);
         instructionLabel.prefWidthProperty().bind(listViewContainer.widthProperty());
 
@@ -48,6 +48,7 @@ public class NewGamePane extends FlowPane {
         setOrientation(Orientation.VERTICAL);
         setStyle("-fx-background-color: rgba(0,0,0,0.6);");
         setAlignment(Pos.CENTER);
+        setVgap(10);
         getChildren().addAll(listViewContainer, instructionLabel, bottomBar);
     }
 
@@ -168,7 +169,8 @@ public class NewGamePane extends FlowPane {
      * @param label
      */
     private void setupLabelStyle(Label label) {
-        label.setStyle("-fx-text-alignment: center; " +
+//        label.setStyle("-fx-text-alignment: center; " +
+        label.setStyle("" +
                         "-fx-font-size: 16px; " +
                         "-fx-font-weight: bold; " +
                         "-fx-text-fill: rgba(255,255,255);");
