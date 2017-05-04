@@ -32,25 +32,9 @@ public class NewGamePane extends FlowPane {
     public NewGamePane(Pane parentPane, MainViewModel viewModel) {
         this.viewModel = viewModel;
 
-        // Setup the list views for game types, officers, and athletes
-        gameTypeListView = new ListView<>();
-        officerListView = new ListView<>();
-        athleteListView = new ListView<>();
+        setupListViews();
 
-        gameTypeListView.setItems(viewModel.getGameTypes());
-        officerListView.setItems(viewModel.getOfficials());
-
-        gameTypeListView.setPrefWidth(listViewWidth);
-        gameTypeListView.setPrefHeight(listViewWidth);
-        officerListView.setPrefWidth(listViewWidth);
-        officerListView.setPrefHeight(listViewWidth);
-        athleteListView.setPrefWidth(listViewWidth);
-        athleteListView.setPrefHeight(listViewWidth);
-
-        setParticipantCellFactory(officerListView);
-        setParticipantCellFactory(athleteListView);
-
-        // The container grouping all list views
+        // Setup the container grouping all list views
         HBox listViewContainer = new HBox();
 //        listViewContainer.setStyle("-fx-background-color: #000000;");
         listViewContainer.setAlignment(Pos.CENTER);
@@ -87,7 +71,36 @@ public class NewGamePane extends FlowPane {
         getChildren().addAll(listViewContainer, bottomBar);
     }
 
+    /**
+     * Setup the list views for game types, officers, and athletes
+     */
+    private void setupListViews() {
+        gameTypeListView = new ListView<>();
+        officerListView = new ListView<>();
+        athleteListView = new ListView<>();
 
+        gameTypeListView.setItems(viewModel.getGameTypes());
+        officerListView.setItems(viewModel.getOfficials());
+
+        gameTypeListView.setPrefWidth(listViewWidth);
+        gameTypeListView.setPrefHeight(listViewWidth);
+        officerListView.setPrefWidth(listViewWidth);
+        officerListView.setPrefHeight(listViewWidth);
+        athleteListView.setPrefWidth(listViewWidth);
+        athleteListView.setPrefHeight(listViewWidth);
+
+        setParticipantCellFactory(officerListView);
+        setParticipantCellFactory(athleteListView);
+
+
+        gameTypeListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (oldValue != null && oldValue.equals(newValue)) {
+                return;
+            }
+
+            athleteListView.setItems(viewModel.getAthletesByType(newValue));
+        });
+    }
 
     /**
      * Setup cell factory for list view with Participant type

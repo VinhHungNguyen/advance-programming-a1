@@ -153,6 +153,60 @@ public class MainViewModel {
         }
     }
 
+    /**
+     * Get all athletes who can play a given type of game.
+     * @param type The given type of game
+     * @return All athletes who can play that type of game
+     */
+    public ObservableList<Athlete> getAthletesByType(String type) {
+        if (type.equals(Game.TYPE_SWIMMING)) {
+            return getSwimmableAthletes();
+        }
+        if (type.equals(Game.TYPE_CYCLING)) {
+            return getCyclableAthletes();
+        }
+        if (type.equals(Game.TYPE_RUNNING)) {
+            return getRunnableAthletes();
+        }
+        return null;
+    }
+
+    /**
+     * Get all athletes who can swim
+     * @return All athletes who can swim
+     */
+    public ObservableList<Athlete> getSwimmableAthletes() {
+        return getAthletesOfAGameType(swimmers);
+    }
+
+    /**
+     * Get all athletes who can cycle
+     * @return All athletes who can cycle
+     */
+    public ObservableList<Athlete> getCyclableAthletes() {
+        return getAthletesOfAGameType(cyclists);
+    }
+
+    /**
+     * Get all athletes who can run
+     * @return All athletes who can run
+     */
+    public ObservableList<Athlete> getRunnableAthletes() {
+        return getAthletesOfAGameType(sprinters);
+    }
+
+    /**
+     * Get all athlete who can play the same type of game as the given list of athletes, including themselves
+     * @param a The given list of athletes
+     * @param <T> The type of the given athletes
+     * @return All athlete who can play the same type of game as the given athletes
+     */
+    private <T extends Athlete> ObservableList<Athlete> getAthletesOfAGameType(ObservableList<T> a) {
+        ObservableList<Athlete> athletes = FXCollections.observableArrayList(a);
+        athletes.addAll(superAthletes);
+        return athletes;
+    }
+
     public ObservableList<Swimmer> getSwimmers() {
         return swimmers;
     }
