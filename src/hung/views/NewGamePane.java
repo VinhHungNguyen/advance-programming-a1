@@ -5,20 +5,13 @@ import hung.models.Official;
 import hung.models.Participant;
 import hung.utils.ViewUtils;
 import hung.viewmodels.MainViewModel;
+import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-
-import java.awt.*;
+import javafx.scene.layout.*;
 
 /**
  * Created by hungnguyen on 5/4/17.
@@ -30,33 +23,126 @@ public class NewGamePane extends FlowPane {
     private ListView<String> gameTypeListView;
     private ListView<Official> officerListView;
     private ListView<Athlete> athleteListView;
+    private ListView<Athlete> selectedAthleteListView;
 
     private MainViewModel viewModel;
 
     public NewGamePane(Pane parentPane, MainViewModel viewModel) {
         this.viewModel = viewModel;
 
-        setupListViews();
-
-        // Setup the container grouping all list views
-        HBox listViewContainer = new HBox();
-//        listViewContainer.setStyle("-fx-background-color: #000000;");
-        listViewContainer.setAlignment(Pos.CENTER);
-        listViewContainer.setSpacing(10);
-        listViewContainer.getChildren().addAll(gameTypeListView, officerListView, athleteListView);
+        GridPane listViewContainer = setupListViews();
 
         // Setup instruction label
         Label instructionLabel =
                 new Label("Hold Ctrl (on Window) or Command (on Mac) + left click\nto select multiple athletes");
-//        instructionLabel.setTextFill(Color.WHITE);
-//        instructionLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
-        instructionLabel.setStyle(
-                "-fx-text-alignment: center; " +
-                        "-fx-font-size: 18px; " +
-                        "-fx-font-weight: bold; " +
-                        "-fx-text-fill: rgba(255,255,255);");
+        setupLabelStyle(instructionLabel);
+        instructionLabel.prefWidthProperty().bind(listViewContainer.widthProperty());
+
+        BorderPane bottomBar = setupBottomBar();
+        bottomBar.prefWidthProperty().bind(listViewContainer.widthProperty());
 
 
+        // Setup this pane's attributes
+        prefWidthProperty().bind(parentPane.widthProperty());
+        prefHeightProperty().bind(parentPane.heightProperty());
+        setOrientation(Orientation.VERTICAL);
+        setStyle("-fx-background-color: rgba(0,0,0,0.6);");
+        setAlignment(Pos.CENTER);
+        getChildren().addAll(listViewContainer, instructionLabel, bottomBar);
+    }
+
+    /**
+     * Setup the list views for game types, officers, and athletes
+     * @return The pane containing all of the list views
+     */
+    private GridPane setupListViews() {
+        // Setup the list views
+        gameTypeListView = new ListView<>();
+        officerListView = new ListView<>();
+        athleteListView = new ListView<>();
+        selectedAthleteListView = new ListView<>();
+
+        gameTypeListView.setItems(viewModel.getGameTypes());
+        officerListView.setItems(viewModel.getOfficials());
+        athleteListView.setItems(viewModel.getAthletesOfType());
+        selectedAthleteListView.setItems(viewModel.getSelectedAthletes());
+
+        gameTypeListView.setPrefWidth(listViewWidth);
+        gameTypeListView.setPrefHeight(listViewWidth);
+        officerListView.setPrefWidth(listViewWidth);
+        officerListView.setPrefHeight(listViewWidth);
+        athleteListView.setPrefWidth(listViewWidth);
+        athleteListView.setPrefHeight(listViewWidth);
+        selectedAthleteListView.setPrefWidth(listViewWidth);
+        selectedAthleteListView.setPrefHeight(listViewWidth);
+
+        setParticipantCellFactory(officerListView);
+        setParticipantCellFactory(athleteListView);
+        setParticipantCellFactory(selectedAthleteListView);
+
+        gameTypeListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (oldValue != null && oldValue.equals(newValue)) {
+                return;
+            }
+
+            viewModel.updateAthletesByType(newValue);
+//            athleteListView.setItems(viewModel.updateAthletesByType(newValue));
+        });
+
+        athleteListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        athleteListView.setOnMouseClicked(event -> {
+            ObservableList<Athlete> selectedAthletes = athleteListView.getSelectionModel().getSelectedItems();
+            viewModel.updateSelectedAthletes(selectedAthletes);
+
+//            System.out.print("Selected Athletes: ");
+//            for (Athlete a : selectedAthletes) {
+//                System.out.print(a.getName() + ", ");
+//            }
+//            System.out.println();
+        });
+
+
+        // Setup the headers
+        Label gameTypeLabel = new Label("Types of Game");
+        Label officerLabel = new Label("Oficers");
+        Label athleteLabel = new Label("Athletes");
+        Label predictionLabel = new Label("Your Prediction");
+
+        setupLabelStyle(gameTypeLabel);
+        setupLabelStyle(officerLabel);
+        setupLabelStyle(athleteLabel);
+        setupLabelStyle(predictionLabel);
+
+        gameTypeLabel.setPrefWidth(listViewWidth);
+        officerLabel.setPrefWidth(listViewWidth);
+        athleteLabel.setPrefWidth(listViewWidth);
+        predictionLabel.setPrefWidth(listViewWidth);
+
+
+        // Setup the container grouping all list views
+        GridPane listViewContainer = new GridPane();
+        listViewContainer.setAlignment(Pos.CENTER);
+        listViewContainer.setHgap(10);
+        listViewContainer.setVgap(10);
+
+        listViewContainer.add(gameTypeLabel, 0, 0);
+        listViewContainer.add(officerLabel, 1, 0);
+        listViewContainer.add(athleteLabel, 2, 0);
+        listViewContainer.add(predictionLabel, 3, 0);
+
+        listViewContainer.add(gameTypeListView, 0, 1);
+        listViewContainer.add(officerListView, 1, 1);
+        listViewContainer.add(athleteListView, 2, 1);
+        listViewContainer.add(selectedAthleteListView, 3, 1);
+
+        return listViewContainer;
+    }
+
+    /**
+     * Setup the bottom bar
+     * @return The pane representing the bottom bar
+     */
+    private BorderPane setupBottomBar() {
         // The Ok button to enter a game
         Button okButton = new Button(" Ok ");
         okButton.setOnAction(event -> {
@@ -66,55 +152,26 @@ public class NewGamePane extends FlowPane {
         // The Back button to exit the New Game scene
         Button backButton = new Button("Back");
         backButton.setOnAction(event -> {
-            ViewUtils.fadeOut(this, parentPane, 500);
+            ViewUtils.fadeOut(this, (Pane) getParent(), 500);
         });
 
         // The bottom bar containing Back and Ok buttons
         BorderPane bottomBar = new BorderPane();
-        bottomBar.prefWidthProperty().bind(listViewContainer.widthProperty());
         bottomBar.setLeft(backButton);
         bottomBar.setRight(okButton);
 
-        prefWidthProperty().bind(parentPane.widthProperty());
-        prefHeightProperty().bind(parentPane.heightProperty());
-
-        setOrientation(Orientation.VERTICAL);
-        setStyle("-fx-background-color: rgba(0,0,0,0.5);");
-        setAlignment(Pos.CENTER);
-        getChildren().addAll(listViewContainer, instructionLabel, bottomBar);
+        return bottomBar;
     }
 
     /**
-     * Setup the list views for game types, officers, and athletes
+     * Setup the style of a given label
+     * @param label
      */
-    private void setupListViews() {
-        gameTypeListView = new ListView<>();
-        officerListView = new ListView<>();
-        athleteListView = new ListView<>();
-
-        gameTypeListView.setItems(viewModel.getGameTypes());
-        officerListView.setItems(viewModel.getOfficials());
-
-        gameTypeListView.setPrefWidth(listViewWidth);
-        gameTypeListView.setPrefHeight(listViewWidth);
-        officerListView.setPrefWidth(listViewWidth);
-        officerListView.setPrefHeight(listViewWidth);
-        athleteListView.setPrefWidth(listViewWidth);
-        athleteListView.setPrefHeight(listViewWidth);
-
-        setParticipantCellFactory(officerListView);
-        setParticipantCellFactory(athleteListView);
-
-
-        gameTypeListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (oldValue != null && oldValue.equals(newValue)) {
-                return;
-            }
-
-            athleteListView.setItems(viewModel.getAthletesByType(newValue));
-        });
-
-        athleteListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    private void setupLabelStyle(Label label) {
+        label.setStyle("-fx-text-alignment: center; " +
+                        "-fx-font-size: 16px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-text-fill: rgba(255,255,255);");
     }
 
     /**
@@ -122,7 +179,17 @@ public class NewGamePane extends FlowPane {
      */
     private void okButtonClicked() {
         Official official = officerListView.getSelectionModel().getSelectedItem();
+        ObservableList<Athlete> athletes = athleteListView.getSelectionModel().getSelectedItems();
+        Athlete predictedAthlete = selectedAthleteListView.getSelectionModel().getSelectedItem();
 
+//        selectedAthleteListView.setItems(athletes);
+
+//        System.out.println("Selected Officer: " + official);
+//        System.out.print("Selected Athletes: ");
+//        for (Athlete a : athletes) {
+//            System.out.print(a + ", ");
+//        }
+//        System.out.println();
     }
 
     /**

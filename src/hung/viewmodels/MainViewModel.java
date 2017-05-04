@@ -22,6 +22,9 @@ public class MainViewModel {
 
     private ObservableList<Official> officials;
 
+    private ObservableList<Athlete> athletesOfType;
+    private ObservableList<Athlete> selectedAthletes;
+
 //    private List<Game> swimmingGames;
 //    private List<Game> cyclingGames;
 //    private List<Game> runningGames;
@@ -44,6 +47,9 @@ public class MainViewModel {
         superAthletes = FXCollections.observableArrayList();
 
         officials = FXCollections.observableArrayList();
+
+        athletesOfType = FXCollections.observableArrayList();
+        selectedAthletes = FXCollections.observableArrayList();
 
 //        swimmingGames = new ArrayList<>();
 //        cyclingGames = new ArrayList<>();
@@ -158,7 +164,8 @@ public class MainViewModel {
      * @param type The given type of game
      * @return All athletes who can play that type of game
      */
-    public ObservableList<Athlete> getAthletesByType(String type) {
+    public ObservableList<Athlete> updateAthletesByType(String type) {
+        selectedAthletes.clear();
         if (type.equals(Game.TYPE_SWIMMING)) {
             return getSwimmableAthletes();
         }
@@ -202,9 +209,15 @@ public class MainViewModel {
      * @return All athlete who can play the same type of game as the given athletes
      */
     private <T extends Athlete> ObservableList<Athlete> getAthletesOfAGameType(ObservableList<T> a) {
-        ObservableList<Athlete> athletes = FXCollections.observableArrayList(a);
-        athletes.addAll(superAthletes);
-        return athletes;
+        athletesOfType.clear();
+        athletesOfType.addAll(a);
+        athletesOfType.addAll(superAthletes);
+        return athletesOfType;
+    }
+
+    public void updateSelectedAthletes(ObservableList<Athlete> selectedAthletes) {
+        this.selectedAthletes.clear();
+        this.selectedAthletes.addAll(selectedAthletes);
     }
 
     public ObservableList<Swimmer> getSwimmers() {
@@ -233,5 +246,13 @@ public class MainViewModel {
 
     public ObservableList<String> getGameTypes() {
         return gameTypes;
+    }
+
+    public ObservableList<Athlete> getAthletesOfType() {
+        return athletesOfType;
+    }
+
+    public ObservableList<Athlete> getSelectedAthletes() {
+        return selectedAthletes;
     }
 }
