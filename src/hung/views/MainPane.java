@@ -1,12 +1,9 @@
 package hung.views;
 
-import hung.models.Athlete;
-import hung.models.Official;
 import hung.routers.MainRouter;
 import hung.utils.ViewUtils;
 import hung.viewmodels.MainViewModel;
 import javafx.animation.TranslateTransition;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -15,13 +12,15 @@ import javafx.util.Duration;
 /**
  * Created by hungnguyen on 5/1/17.
  */
-public class MainPane extends Pane {
+public class MainPane extends Pane implements RootPane.Helper {
 
     private static final int menuWidth = 160;
     private static final int menuHeight = 48;
     private static final int menuTranslateDistance = 300;
 
 //    private static final int listViewWidth = 160;
+
+    private RootPane rootPane;
 
     private VBox menuPane;
     private Button newGameButton;
@@ -32,18 +31,21 @@ public class MainPane extends Pane {
     private boolean menuTransitionReversed;
 
     private MainViewModel viewModel;
-    private MainRouter mainRouter;
+    private MainRouter router;
 
-    public MainPane() {
+    public MainPane(RootPane rootPane) {
         super();
 
+        this.rootPane = rootPane;
         viewModel = new MainViewModel();
-        mainRouter = new MainRouter();
+        router = new MainRouter();
 
         setupMenuView();
 
         getChildren().addAll(menuPane);
         setupMenuTransition();
+
+        setStyle("-fx-background-color: rgba(255,255,255);");
     }
 
     /**
@@ -109,7 +111,7 @@ public class MainPane extends Pane {
      * Handle New Game button click
      */
     private void newGameButtonClicked() {
-        mainRouter.toNewGame(this, viewModel);
+        router.toNewGame(this, viewModel);
     }
 
     /**
@@ -124,7 +126,8 @@ public class MainPane extends Pane {
     private void leaderboardButtonClicked() {
     }
 
-    public void runNewGame(Official officer, ObservableList<Athlete> athletes, Athlete predictedAthlete) {
-
+    @Override
+    public RootPane getRootPane() {
+        return rootPane;
     }
 }

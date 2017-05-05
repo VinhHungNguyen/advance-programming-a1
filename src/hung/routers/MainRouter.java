@@ -21,8 +21,8 @@ public class MainRouter {
     public void toNewGame(MainPane mainPane, MainViewModel viewModel) {
         NewGameViewModel newGameViewModel = new NewGameViewModel(viewModel.getSwimmers(), viewModel.getCyclists(),
                 viewModel.getSprinters(), viewModel.getSuperAthletes(), viewModel.getOfficials());
-        NewGamePane newGamePane = new NewGamePane(mainPane, newGameViewModel);
+        NewGamePane newGamePane = new NewGamePane(mainPane.getRootPane(), newGameViewModel);
 
-        ViewUtils.fadeIn(fadeInTransition, newGamePane, mainPane);
+        ViewUtils.fadeIn(mainPane.getRootPane(), newGamePane, fadeInTransition);
     }
 }

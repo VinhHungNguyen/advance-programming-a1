@@ -2,6 +2,7 @@ package hung;
 
 import hung.utils.ViewUtils;
 import hung.views.MainPane;
+import hung.views.RootPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -22,9 +23,15 @@ public class Ozlympic2 extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        mainPane = new MainPane();
+        String name = Thread.currentThread().getName();
+        System.out.println("start() method: " + name);
 
-        Scene scene = new Scene(mainPane, ViewUtils.WINDOW_WIDTH, ViewUtils.WINDOW_HEIGHT);
+        RootPane rootPane = new RootPane();
+
+        mainPane = new MainPane(rootPane);
+        rootPane.add(mainPane);
+
+        Scene scene = new Scene(rootPane, ViewUtils.WINDOW_WIDTH, ViewUtils.WINDOW_HEIGHT);
 
         // Setup stage
         primaryStage.setTitle("Ozlympic");

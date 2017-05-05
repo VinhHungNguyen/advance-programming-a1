@@ -3,7 +3,7 @@ package hung.views;
 import hung.models.Athlete;
 import hung.models.Official;
 import hung.models.Participant;
-import hung.utils.ViewUtils;
+import hung.routers.NewGameRouter;
 import hung.viewmodels.NewGameViewModel;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -12,14 +12,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 
 /**
  * Created by hungnguyen on 5/4/17.
  */
-public class NewGamePane extends FlowPane {
+public class NewGamePane extends FlowPane implements RootPane.Helper {
 
     private static final int listViewWidth = 160;
+
+    private RootPane rootPane;
 
     private ListView<String> gameTypeListView;
     private ListView<Official> officerListView;
@@ -27,9 +28,12 @@ public class NewGamePane extends FlowPane {
     private ListView<Athlete> selectedAthleteListView;
 
     private NewGameViewModel viewModel;
+    private NewGameRouter router;
 
-    public NewGamePane(Pane parentPane, NewGameViewModel viewModel) {
+    public NewGamePane(RootPane rootPane, NewGameViewModel viewModel) {
+        this.rootPane = rootPane;
         this.viewModel = viewModel;
+        router = new NewGameRouter();
 
         GridPane listViewContainer = setupListViews();
 
@@ -44,8 +48,6 @@ public class NewGamePane extends FlowPane {
 
 
         // Setup this pane's attributes
-        prefWidthProperty().bind(parentPane.widthProperty());
-        prefHeightProperty().bind(parentPane.heightProperty());
         setOrientation(Orientation.VERTICAL);
         setStyle("-fx-background-color: rgba(0,0,0,0.6);");
         setAlignment(Pos.CENTER);
@@ -148,7 +150,7 @@ public class NewGamePane extends FlowPane {
         // The Back button to exit the New Game scene
         Button backButton = new Button("Back");
         backButton.setOnAction(event -> {
-            ViewUtils.fadeOut(this, (Pane) getParent(), 500);
+            router.back(this);
         });
 
         // The bottom bar containing Back and Ok buttons
@@ -179,7 +181,7 @@ public class NewGamePane extends FlowPane {
         ObservableList<Athlete> athletes = athleteListView.getSelectionModel().getSelectedItems();
         Athlete predictedAthlete = selectedAthleteListView.getSelectionModel().getSelectedItem();
 
-
+        router.toRunGame(this, official, athletes, predictedAthlete);
     }
 
     /**
@@ -200,5 +202,10 @@ public class NewGamePane extends FlowPane {
                 }
             }
         });
+    }
+
+    @Override
+    public RootPane getRootPane() {
+        return rootPane;
     }
 }
