@@ -6,7 +6,9 @@ import hung.utils.ViewUtils;
 import hung.viewmodels.GamePlayViewModel;
 import hung.views.GamePlayPane;
 import hung.views.NewGamePane;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 
 /**
  * Created by hungnguyen on 5/5/17.
@@ -27,15 +29,8 @@ public class NewGameRouter {
         GamePlayViewModel gamePlayViewModel = new GamePlayViewModel(officer, athletes, predictedAthlete);
         GamePlayPane gamePlayPane = new GamePlayPane(newGamePane.getRootPane(), gamePlayViewModel);
 
-        newGamePane.getRootPane().addWithAnimation(gamePlayPane);
-
-        new Thread(() -> {
-            try {
-                Thread.sleep(500);
-                newGamePane.getRootPane().getChildren().remove(newGamePane);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        newGamePane.getRootPane().addWithAnimation(gamePlayPane, () -> {
+            newGamePane.getRootPane().getChildren().remove(newGamePane);
         });
     }
 

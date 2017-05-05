@@ -36,12 +36,16 @@ public class RootPane extends StackPane {
      * Add a pane to the stack with animation
      * @param pane
      */
-    public void addWithAnimation(Pane pane) {
+    public void addWithAnimation(Pane pane, OnPaneTransitionFinishListener listener) {
         fadeInTransition.setOnFinished(event -> {
             fadeOutTransition.setOnFinished(event1 -> {
                 getChildren().remove(overlay);
                 fadeInTransition.setOnFinished(null);
                 fadeOutTransition.setOnFinished(null);
+
+                if (listener != null) {
+                    listener.onFinished();
+                }
             });
 
             fadeOutTransition.setNode(overlay);
@@ -57,12 +61,16 @@ public class RootPane extends StackPane {
      * Remove a pane from the stack with animation
      * @param pane
      */
-    public void removeWithAnimation(Pane pane) {
+    public void removeWithAnimation(Pane pane, OnPaneTransitionFinishListener listener) {
         fadeInTransition.setOnFinished(event -> {
             fadeOutTransition.setOnFinished(event1 -> {
                 getChildren().remove(overlay);
                 fadeInTransition.setOnFinished(null);
                 fadeOutTransition.setOnFinished(null);
+
+                if (listener != null) {
+                    listener.onFinished();
+                }
             });
 
             fadeOutTransition.setNode(overlay);
@@ -80,7 +88,11 @@ public class RootPane extends StackPane {
         add(overlay);
     }
 
-    interface Helper {
+    public interface Helper {
         RootPane getRootPane();
+    }
+
+    public interface OnPaneTransitionFinishListener {
+        void onFinished();
     }
 }
