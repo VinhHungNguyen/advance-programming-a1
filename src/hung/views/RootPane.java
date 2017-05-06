@@ -28,8 +28,7 @@ public class RootPane extends StackPane {
      */
     public void add(Pane pane) {
         getChildren().add(pane);
-        pane.prefWidthProperty().bind(widthProperty());
-        pane.prefHeightProperty().bind(heightProperty());
+        ViewUtils.equalizePane(pane, this);
     }
 
     /**

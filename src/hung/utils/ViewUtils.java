@@ -98,4 +98,14 @@ public class ViewUtils {
     public static FadeTransition makeFadeOutTransition(double milSecDuration) {
         return makeFadeTransition(milSecDuration, 1.0d, 0.0d);
     }
+
+    /**
+     * Bind the size of a pane to another so that they always have equal sizes.
+     * @param equalizedPane The binding pane
+     * @param targetPane THe bindable pane
+     */
+    public static void equalizePane(Pane equalizedPane, Pane targetPane) {
+        equalizedPane.prefWidthProperty().bind(targetPane.widthProperty());
+        equalizedPane.prefHeightProperty().bind(targetPane.heightProperty());
+    }
 }

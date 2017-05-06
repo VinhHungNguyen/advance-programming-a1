@@ -31,6 +31,7 @@ public class NewGameRouter {
 
         newGamePane.getRootPane().addWithAnimation(gamePlayPane, () -> {
             newGamePane.getRootPane().getChildren().remove(newGamePane);
+            gamePlayPane.startCounting();
         });
     }
 
