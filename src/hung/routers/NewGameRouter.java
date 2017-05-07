@@ -6,6 +6,7 @@ import hung.utils.ViewUtils;
 import hung.viewmodels.GamePlayViewModel;
 import hung.views.GamePlayPane;
 import hung.views.NewGamePane;
+import hung.views.RootPane;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -26,11 +27,12 @@ public class NewGameRouter {
         // TODO: Handle validation for officer, athletes, and predicted athlete here
 
 
+        RootPane rootPane = newGamePane.getRootPane();
         GamePlayViewModel gamePlayViewModel = new GamePlayViewModel(officer, athletes, predictedAthlete);
-        GamePlayPane gamePlayPane = new GamePlayPane(newGamePane.getRootPane(), gamePlayViewModel);
+        GamePlayPane gamePlayPane = new GamePlayPane(rootPane, gamePlayViewModel);
 
-        newGamePane.getRootPane().addWithAnimation(gamePlayPane, () -> {
-            newGamePane.getRootPane().getChildren().remove(newGamePane);
+        rootPane.addWithAnimation(gamePlayPane, () -> {
+            rootPane.getChildren().remove(newGamePane);
             gamePlayPane.startCounting();
         });
     }
