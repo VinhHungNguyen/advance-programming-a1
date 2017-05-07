@@ -1,8 +1,7 @@
-package hung.routers;
+package hung.modules.gameplay;
 
-import hung.viewmodels.ResultViewModel;
-import hung.views.GamePlayPane;
-import hung.views.ResultPane;
+import hung.modules.listview.ListViewPane;
+import hung.modules.listview.ListViewViewModel;
 import hung.views.RootPane;
 
 /**
@@ -12,10 +11,10 @@ public class GamePlayRouter {
 
     public void toGameResult(GamePlayPane gamePlayPane) {
         RootPane rootPane = gamePlayPane.getRootPane();
-        ResultViewModel viewModel = new ResultViewModel();
-        ResultPane resultPane = new ResultPane(rootPane, viewModel);
+        ListViewViewModel viewModel = new ListViewViewModel();
+        ListViewPane listViewPane = new ListViewPane(rootPane, viewModel, "Result");
 
-        rootPane.addWithAnimation(resultPane, () -> {
+        rootPane.addWithAnimation(listViewPane, () -> {
             rootPane.getChildren().remove(gamePlayPane);
         });
     }

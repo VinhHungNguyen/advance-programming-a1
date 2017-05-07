@@ -1,15 +1,12 @@
-package hung.routers;
+package hung.modules.newgame;
 
 import hung.models.Athlete;
 import hung.models.Official;
+import hung.modules.gameplay.GamePlayPane;
+import hung.modules.gameplay.GamePlayViewModel;
 import hung.utils.ViewUtils;
-import hung.viewmodels.GamePlayViewModel;
-import hung.views.GamePlayPane;
-import hung.views.NewGamePane;
 import hung.views.RootPane;
-import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 
 /**
  * Created by hungnguyen on 5/5/17.

@@ -1,8 +1,7 @@
-package hung.views;
+package hung.modules.gameplay;
 
-import hung.routers.GamePlayRouter;
 import hung.utils.ViewUtils;
-import hung.viewmodels.GamePlayViewModel;
+import hung.views.RootPane;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;

@@ -1,7 +1,7 @@
 package hung;
 
+import hung.modules.home.HomePane;
 import hung.utils.ViewUtils;
-import hung.views.MainPane;
 import hung.views.RootPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -12,7 +12,7 @@ import javafx.stage.Stage;
  */
 public class Ozlympic2 extends Application {
 
-    private MainPane mainPane;
+    private HomePane homePane;
 
     public Ozlympic2() {
     }
@@ -28,8 +28,8 @@ public class Ozlympic2 extends Application {
 
         RootPane rootPane = new RootPane();
 
-        mainPane = new MainPane(rootPane);
-        rootPane.add(mainPane);
+        homePane = new HomePane(rootPane);
+        rootPane.add(homePane);
 
         Scene scene = new Scene(rootPane, ViewUtils.WINDOW_WIDTH, ViewUtils.WINDOW_HEIGHT);
 

@@ -1,10 +1,9 @@
-package hung.views;
+package hung.modules.newgame;
 
 import hung.models.Athlete;
 import hung.models.Official;
 import hung.models.Participant;
-import hung.routers.NewGameRouter;
-import hung.viewmodels.NewGameViewModel;
+import hung.views.RootPane;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;

@@ -1,4 +1,4 @@
-package hung.viewmodels;
+package hung.modules.newgame;
 
 import hung.models.*;
 import javafx.collections.FXCollections;

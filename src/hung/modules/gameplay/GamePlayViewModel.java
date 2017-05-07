@@ -1,4 +1,4 @@
-package hung.viewmodels;
+package hung.modules.gameplay;
 
 import hung.models.Athlete;
 import hung.models.Official;

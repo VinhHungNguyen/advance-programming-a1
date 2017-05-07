@@ -1,4 +1,4 @@
-package hung.viewmodels;
+package hung.modules.home;
 
 import hung.models.*;
 import javafx.collections.FXCollections;
@@ -13,7 +13,7 @@ import java.util.Scanner;
 /**
  * Created by hungnguyen on 5/3/17.
  */
-public class MainViewModel {
+public class HomeViewModel {
 
     private ObservableList<Swimmer> swimmers;
     private ObservableList<Cyclist> cyclists;
@@ -27,7 +27,7 @@ public class MainViewModel {
 //    private List<Game> runningGames;
     private ObservableList<Game> games;
 
-    public MainViewModel() {
+    public HomeViewModel() {
         loadParticipants();
 
 //        swimmingGames = new ArrayList<>();

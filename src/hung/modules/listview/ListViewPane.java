@@ -1,22 +1,17 @@
-package hung.views;
+package hung.modules.listview;
 
-import hung.routers.ResultRouter;
-import hung.viewmodels.ResultViewModel;
+import hung.views.RootPane;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 
 /**
  * Created by hungnguyen on 5/7/17.
  */
-public class ResultPane extends VBox implements RootPane.Helper {
+public class ListViewPane extends VBox implements RootPane.Helper {
 
     private RootPane rootPane;
 
@@ -24,13 +19,16 @@ public class ResultPane extends VBox implements RootPane.Helper {
     private ListView listView;
     private Button continueButton;
 
-    private ResultViewModel viewModel;
-    private ResultRouter router;
+    private String title;
 
-    public ResultPane(RootPane rootPane, ResultViewModel viewModel) {
+    private ListViewViewModel viewModel;
+    private ListViewRouter router;
+
+    public ListViewPane(RootPane rootPane, ListViewViewModel viewModel, String title) {
         this.rootPane = rootPane;
         this.viewModel = viewModel;
-        router = new ResultRouter();
+        this.title = title;
+        router = new ListViewRouter();
 
         setupListView();
         setupButtonAndTitleView();
@@ -50,7 +48,7 @@ public class ResultPane extends VBox implements RootPane.Helper {
     }
 
     private void setupButtonAndTitleView() {
-        titleLabel = new Label("Result");
+        titleLabel = new Label(title);
 //        titleLabel.prefWidthProperty().bind(listView.prefWidthProperty());
         titleLabel.setAlignment(Pos.CENTER);
         titleLabel.setStyle(

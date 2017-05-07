@@ -1,8 +1,7 @@
-package hung.views;
+package hung.modules.home;
 
-import hung.routers.MainRouter;
 import hung.utils.ViewUtils;
-import hung.viewmodels.MainViewModel;
+import hung.views.RootPane;
 import javafx.animation.TranslateTransition;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -12,7 +11,7 @@ import javafx.util.Duration;
 /**
  * Created by hungnguyen on 5/1/17.
  */
-public class MainPane extends Pane implements RootPane.Helper {
+public class HomePane extends Pane implements RootPane.Helper {
 
     private static final int menuWidth = 160;
     private static final int menuHeight = 48;
@@ -30,15 +29,15 @@ public class MainPane extends Pane implements RootPane.Helper {
     private TranslateTransition menuTransition;
     private boolean menuTransitionReversed;
 
-    private MainViewModel viewModel;
-    private MainRouter router;
+    private HomeViewModel viewModel;
+    private HomeRouter router;
 
-    public MainPane(RootPane rootPane) {
+    public HomePane(RootPane rootPane) {
         super();
 
         this.rootPane = rootPane;
-        viewModel = new MainViewModel();
-        router = new MainRouter();
+        viewModel = new HomeViewModel();
+        router = new HomeRouter();
 
         setupMenuView();
 
@@ -118,12 +117,14 @@ public class MainPane extends Pane implements RootPane.Helper {
      * Handle History button click
      */
     private void historyButtonClicked() {
+        router.toHistory(this);
     }
 
     /**
      * Handle Leaderboard button click
      */
     private void leaderboardButtonClicked() {
+        router.toLeaderboard(this);
     }
 
     @Override
