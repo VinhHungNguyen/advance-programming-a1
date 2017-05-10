@@ -3,7 +3,6 @@ package hung.modules.home;
 import hung.modules.listview.ListViewPane;
 import hung.modules.listview.ListViewViewModel;
 import hung.modules.newgame.NewGamePane;
-import hung.modules.newgame.NewGameViewModel;
 import hung.utils.ViewUtils;
 import hung.views.RootPane;
 import javafx.animation.FadeTransition;
@@ -19,13 +18,8 @@ public class HomeRouter {
         fadeInTransition = ViewUtils.makeFadeTransition(500, 0.0d, 1.0d);
     }
 
-    public void toNewGame(HomePane homePane, HomeViewModel viewModel) {
-//        NewGameViewModel newGameViewModel = new NewGameViewModel(viewModel.getSwimmers(), viewModel.getCyclists(),
-//                viewModel.getSprinters(), viewModel.getSuperAthletes(), viewModel.getOfficials());
-//        NewGameViewModel newGameViewModel = new NewGameViewModel();
-
+    public void toNewGame(HomePane homePane) {
         NewGamePane newGamePane = new NewGamePane(homePane.getRootPane());
-
         ViewUtils.fadeIn(homePane.getRootPane(), newGamePane, fadeInTransition);
     }
 

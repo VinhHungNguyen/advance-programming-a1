@@ -1,6 +1,7 @@
 package hung.models;
 
-import java.text.SimpleDateFormat;
+import hung.workers.ParticipantWorker;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -29,8 +30,8 @@ public class Game {
     public static final String TYPE_CYCLING = "Cycling";
     public static final String TYPE_RUNNING = "Running";
 
-    private List<Athlete> athletes;
-    private Official official;
+    private List<String> athleteIds;
+    private String officialId;
 
     private String id;
     private String predictedAthleteId;
@@ -41,20 +42,28 @@ public class Game {
 
     public Game(String id) {
         this.id = id;
-        athletes = new ArrayList<>();
+        athleteIds = new ArrayList<>();
         doneRunning = false;
         predictedAthleteId = "";
     }
 
+    public Game(List<String> athleteIds, String officialId, String id, Calendar finishingDate) {
+        this.athleteIds = athleteIds;
+        this.officialId = officialId;
+        this.id = id;
+        this.finishingDate = finishingDate;
+    }
+
     public boolean run() {
-        // The number of participating athletes is not enough
+        // The number of participating athleteIds is not enough
         if (!isReadyToPlay()) {
-            System.out.println("The game requires at least " + MIN_PARTICIPANTS + " athletes to run.\n" +
+            System.out.println("The game requires at least " + MIN_PARTICIPANTS + " athleteIds to run.\n" +
                     "Game cancelled.\n");
             return false;
         }
 
-        for (Athlete a : athletes) {
+        for (String id : athleteIds) {
+            Athlete a = ParticipantWorker.getAthleteById(id);
             a.setGame(this);
             a.setPreviousAchieveTime(a.compete());
         }
@@ -67,14 +76,14 @@ public class Game {
 
     /**
      * Add new athlete to this game.
-     * If the game has reached maximum number of athletes or the athlete cannot join the game, print an alert then
+     * If the game has reached maximum number of athleteIds or the athlete cannot join the game, print an alert then
      * return false. Otherwise, add the athlete then return true
      * @param athlete The athlete joining this game
      * @return True if adding successfully
      */
     public boolean addAthlete(Athlete athlete) {
         // Already reached max number of participants
-        if (athletes.size() >= MAX_PARTICIPANTS) {
+        if (athleteIds.size() >= MAX_PARTICIPANTS) {
             System.out.println("This game has reached maximum number of participants (8 participants).");
             return false;
         }
@@ -86,21 +95,21 @@ public class Game {
         }
 
         // The athlete is already added to this game
-        for (Athlete a : athletes) {
-            if (a.getId() == athlete.getId()) {
+        for (String id : athleteIds) {
+            if (id == athlete.getId()) {
                 System.out.println("This athlete is already in this game.");
                 return false;
             }
         }
 
 //        athlete.setGame(this);
-        athletes.add(athlete);
+        athleteIds.add(athlete.getId());
         return true;
     }
 
     /**
-     * Add all athletes from a given list of athletes
-     * @param athletes The list or array of athletes
+     * Add all athleteIds from a given list of athleteIds
+     * @param athletes The list or array of athleteIds
      * @return True if adding successfully
      */
     public boolean addAllAthlete(Athlete... athletes) {
@@ -115,10 +124,15 @@ public class Game {
     public void handlePrediction(Athlete predictedAthlete) {
         this.predictedAthleteId = predictedAthlete.getId();
         finishingDate = Calendar.getInstance();
+
+        // Summarise the game
+        Official official = ParticipantWorker.getOfficialById(officialId);
         official.summarise(this);
 
+        Athlete champion = ParticipantWorker.getAthleteById(athleteIds.get(0));
+
         // Achieved time of the predicted athlete is equal to the 1st place athlete => the same place => the winner
-        if (predictedAthlete.getPreviousAchieveTime() == athletes.get(0).getPreviousAchieveTime()) {
+        if (predictedAthlete.getPreviousAchieveTime() == champion.getPreviousAchieveTime()) {
             System.out.println("Congratulation! You have predicted the correct user.");
         } else { // Otherwise
             System.out.println("Your prediction is incorrect.");
@@ -139,9 +153,9 @@ public class Game {
 //    public String getGameResult() {
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
 //        StringBuilder sb = new StringBuilder(id);
-//        sb.append(", ").append(official.getId()).append(", ").append(sdf.format(finishingDate.getTime()));
+//        sb.append(", ").append(officialId.getId()).append(", ").append(sdf.format(finishingDate.getTime()));
 //
-//        for (Athlete a : athletes) {
+//        for (Athlete a : athleteIds) {
 //            sb.append("\n")
 //                    .append(a.getId()).append(", ")
 //                    .append(a.getPreviousAchieveTime()).append(", ")
@@ -151,13 +165,14 @@ public class Game {
 //    }
 
     public boolean isReadyToPlay() {
-        return athletes.size() >= MIN_PARTICIPANTS;
+        return athleteIds.size() >= MIN_PARTICIPANTS;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(id);
-        for (Athlete a : athletes) {
+        for (String id : athleteIds) {
+            Athlete a = ParticipantWorker.getAthleteById(id);
             sb.append("\n");
             sb.append(a.toString());
         }
@@ -173,16 +188,16 @@ public class Game {
         return id;
     }
 
-    public List<Athlete> getAthletes() {
-        return athletes;
+    public List<String> getAthleteIds() {
+        return athleteIds;
     }
 
-    public Official getOfficial() {
-        return official;
+    public String getOfficialId() {
+        return officialId;
     }
 
-    public void setOfficial(Official official) {
-        this.official = official;
+    public void setOfficialId(String officialId) {
+        this.officialId = officialId;
     }
 
     public String getPredictedAthleteId() {

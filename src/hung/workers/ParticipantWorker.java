@@ -102,6 +102,13 @@ public class ParticipantWorker {
     }
 
     public static Participant getParticipantById(String id) {
+        if (officials.containsKey(id)) {
+            return getOfficialById(id);
+        }
+        return getAthleteById(id);
+    }
+
+    public static Athlete getAthleteById(String id) {
         if (swimmers.containsKey(id)) {
             return getSwimmerById(id);
         }
@@ -113,9 +120,6 @@ public class ParticipantWorker {
         }
         if (superAthletes.containsKey(id)) {
             return getSuperAthleteById(id);
-        }
-        if (officials.containsKey(id)) {
-            return getOfficialById(id);
         }
         return null;
     }

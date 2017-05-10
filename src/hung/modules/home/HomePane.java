@@ -110,7 +110,7 @@ public class HomePane extends Pane implements RootPane.Helper {
      * Handle New Game button click
      */
     private void newGameButtonClicked() {
-        router.toNewGame(this, viewModel);
+        router.toNewGame(this);
     }
 
     /**

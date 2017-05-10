@@ -2,6 +2,7 @@ package hung;
 
 import hung.models.*;
 import hung.utils.Utils;
+import hung.workers.ParticipantWorker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -155,11 +156,11 @@ public class Ozlympic {
             return;
         }
 
-        List<Athlete> athletes = selectedGame.getAthletes();
+        List<String> athleteIds = selectedGame.getAthleteIds();
         StringBuilder sb = new StringBuilder("List of participants:\n");
 
-        for (int i = 0; i < athletes.size(); i++) {
-            Athlete a = athletes.get(i);
+        for (int i = 0; i < athleteIds.size(); i++) {
+            Athlete a = ParticipantWorker.getAthleteById(athleteIds.get(i));
             sb.append(i + 1).append(". ").append(a.getName()).append(" - ID: ").append(a.getId()).append("\n");
         }
 
@@ -167,18 +168,18 @@ public class Ozlympic {
 
         String menuText = sb.toString();
         sb = new StringBuilder("The selection must be an integer within 1 to ");
-        sb.append(athletes.size() + 1).append(".\n");
+        sb.append(athleteIds.size() + 1).append(".\n");
 
         String alertMsg = sb.toString();
-        Utils.OnMenuOptionSelectedListener[] listeners = new Utils.OnMenuOptionSelectedListener[athletes.size()];
+        Utils.OnMenuOptionSelectedListener[] listeners = new Utils.OnMenuOptionSelectedListener[athleteIds.size()];
 
-        for (int i = 0; i < athletes.size(); i++) {
-            final Athlete athlete = athletes.get(i);
+        for (int i = 0; i < athleteIds.size(); i++) {
+            final Athlete athlete = ParticipantWorker.getAthleteById(athleteIds.get(i));
             listeners[i] = new Utils.OnMenuOptionSelectedListener() {
                 @Override
                 public boolean onOptionSelected() { // Handle when an athlete is selected
 //                    selectedGame.setPredictedAthleteId(athlete.getId());
-//                    selectedGame.getOfficial().summarise(athletes);
+//                    selectedGame.getOfficialId().summarise(athletes);
 //                    selectedGame.reset();
 
                     selectedGame.handlePrediction(athlete);
@@ -420,7 +421,7 @@ public class Ozlympic {
 //
 //                // Add all super athletes and official
 //                g.addAllAthlete(athletes[j]);
-//                g.setOfficial(officials.get(j % officials.size()));
+//                g.setOfficialId(officials.get(j % officials.size()));
 //
 //                // Add specific type athletes
 //                for (int n = 0; n < j; n++) {

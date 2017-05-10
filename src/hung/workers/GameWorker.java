@@ -57,9 +57,10 @@ public class GameWorker {
             for (Game g : games) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
                 StringBuilder sb = new StringBuilder(g.getId());
-                sb.append(", ").append(g.getOfficial().getId()).append(", ").append(sdf.format(g.getFinishingDate().getTime()));
+                sb.append(", ").append(g.getOfficialId().getId()).append(", ").append(sdf.format(g.getFinishingDate().getTime()));
 
-                for (Athlete a : g.getAthletes()) {
+                for (String id : g.getAthleteIds()) {
+                    Athlete a = ParticipantWorker.getAthleteById(id);
                     sb.append("\n")
                             .append(a.getId()).append(", ")
                             .append(a.getPreviousAchieveTime()).append(", ")
