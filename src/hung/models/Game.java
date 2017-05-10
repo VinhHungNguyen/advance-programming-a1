@@ -136,19 +136,19 @@ public class Game {
         return true;
     }
 
-    public String getGameResult() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
-        StringBuilder sb = new StringBuilder(id);
-        sb.append(", ").append(official.getId()).append(", ").append(sdf.format(finishingDate.getTime()));
-
-        for (Athlete a : athletes) {
-            sb.append("\n")
-                    .append(a.getId()).append(", ")
-                    .append(a.getPreviousAchieveTime()).append(", ")
-                    .append(a.getPreviousReceivedPoint());
-        }
-        return sb.toString();
-    }
+//    public String getGameResult() {
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
+//        StringBuilder sb = new StringBuilder(id);
+//        sb.append(", ").append(official.getId()).append(", ").append(sdf.format(finishingDate.getTime()));
+//
+//        for (Athlete a : athletes) {
+//            sb.append("\n")
+//                    .append(a.getId()).append(", ")
+//                    .append(a.getPreviousAchieveTime()).append(", ")
+//                    .append(a.getPreviousReceivedPoint());
+//        }
+//        return sb.toString();
+//    }
 
     public boolean isReadyToPlay() {
         return athletes.size() >= MIN_PARTICIPANTS;
@@ -203,5 +203,9 @@ public class Game {
 
     public void setLastResult(String lastResult) {
         this.lastResult = lastResult;
+    }
+
+    public Calendar getFinishingDate() {
+        return finishingDate;
     }
 }

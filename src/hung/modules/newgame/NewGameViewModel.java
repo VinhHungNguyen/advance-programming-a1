@@ -1,6 +1,7 @@
 package hung.modules.newgame;
 
 import hung.models.*;
+import hung.workers.ParticipantWorker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -20,6 +21,16 @@ public class NewGameViewModel {
     private ObservableList<Athlete> athletesOfType;
     private ObservableList<Athlete> selectedAthletes;
 
+    public NewGameViewModel() {
+        this.swimmers = FXCollections.observableArrayList(ParticipantWorker.getSwimmers());
+        this.cyclists = FXCollections.observableArrayList(ParticipantWorker.getCyclists());
+        this.sprinters = FXCollections.observableArrayList(ParticipantWorker.getSprinters());
+        this.superAthletes = FXCollections.observableArrayList(ParticipantWorker.getSuperAthletes());
+        this.officials = FXCollections.observableArrayList(ParticipantWorker.getOfficials());
+
+        init();
+    }
+
     public NewGameViewModel(ObservableList<Swimmer> swimmers, ObservableList<Cyclist> cyclists,
                             ObservableList<Sprinter> sprinters, ObservableList<SuperAthlete> superAthletes,
                             ObservableList<Official> officials) {
@@ -29,6 +40,10 @@ public class NewGameViewModel {
         this.superAthletes = superAthletes;
         this.officials = officials;
 
+        init();
+    }
+
+    private void init() {
         gameTypes = FXCollections.observableArrayList(Game.TYPE_SWIMMING, Game.TYPE_CYCLING, Game.TYPE_RUNNING);
         athletesOfType = FXCollections.observableArrayList();
         selectedAthletes = FXCollections.observableArrayList();

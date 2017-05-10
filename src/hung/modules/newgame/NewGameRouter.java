@@ -22,6 +22,15 @@ public class NewGameRouter {
      */
     public void toRunGame(NewGamePane newGamePane, Official officer, ObservableList<Athlete> athletes, Athlete predictedAthlete) {
         // TODO: Handle validation for officer, athletes, and predicted athlete here
+        if (officer == null) {
+
+        }
+        if (athletes == null || athletes.isEmpty()) {
+
+        }
+        if (predictedAthlete == null) {
+
+        }
 
 
         RootPane rootPane = newGamePane.getRootPane();

@@ -29,9 +29,9 @@ public class NewGamePane extends FlowPane implements RootPane.Helper {
     private NewGameViewModel viewModel;
     private NewGameRouter router;
 
-    public NewGamePane(RootPane rootPane, NewGameViewModel viewModel) {
+    public NewGamePane(RootPane rootPane) {
         this.rootPane = rootPane;
-        this.viewModel = viewModel;
+        this.viewModel = new NewGameViewModel();
         router = new NewGameRouter();
 
         GridPane listViewContainer = setupListViews();

@@ -3,6 +3,8 @@ package hung;
 import hung.modules.home.HomePane;
 import hung.utils.ViewUtils;
 import hung.views.RootPane;
+import hung.workers.GameWorker;
+import hung.workers.ParticipantWorker;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -23,8 +25,8 @@ public class Ozlympic2 extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        String name = Thread.currentThread().getName();
-        System.out.println("start() method: " + name);
+        ParticipantWorker.loadParticipants();
+        GameWorker.loadGames();
 
         RootPane rootPane = new RootPane();
 

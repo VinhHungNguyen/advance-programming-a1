@@ -20,9 +20,11 @@ public class HomeRouter {
     }
 
     public void toNewGame(HomePane homePane, HomeViewModel viewModel) {
-        NewGameViewModel newGameViewModel = new NewGameViewModel(viewModel.getSwimmers(), viewModel.getCyclists(),
-                viewModel.getSprinters(), viewModel.getSuperAthletes(), viewModel.getOfficials());
-        NewGamePane newGamePane = new NewGamePane(homePane.getRootPane(), newGameViewModel);
+//        NewGameViewModel newGameViewModel = new NewGameViewModel(viewModel.getSwimmers(), viewModel.getCyclists(),
+//                viewModel.getSprinters(), viewModel.getSuperAthletes(), viewModel.getOfficials());
+//        NewGameViewModel newGameViewModel = new NewGameViewModel();
+
+        NewGamePane newGamePane = new NewGamePane(homePane.getRootPane());
 
         ViewUtils.fadeIn(homePane.getRootPane(), newGamePane, fadeInTransition);
     }
