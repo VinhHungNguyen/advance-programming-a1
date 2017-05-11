@@ -42,6 +42,14 @@ public class GamePlayViewModel {
         counterString = new SimpleStringProperty(counter + "");
     }
 
+    public void generateResult() {
+        game.run();
+    }
+
+    public void summarise() {
+        officer.summarise(game);
+    }
+
     public void nextCount() {
         counter--;
         counterString.setValue(counter + "");
