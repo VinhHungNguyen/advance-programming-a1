@@ -41,7 +41,7 @@ public class ParticipantWorker {
             scanner = new Scanner(file);
 
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
+                String line = scanner.nextLine().trim();
                 String[] tokens = line.split(",");
 
                 if (tokens.length < 5) {

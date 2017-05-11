@@ -4,6 +4,7 @@ import hung.workers.ParticipantWorker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public class Game {
     private String id;
     private String predictedAthleteId;
     private String lastResult;
-    private Calendar finishingDate;
+    private Date finishingDate;
 
     private boolean doneRunning;
 
@@ -47,7 +48,13 @@ public class Game {
         predictedAthleteId = "";
     }
 
-    public Game(List<String> athleteIds, String officialId, String id, Calendar finishingDate) {
+    public Game(String id, String officialId, List<String> athleteIds) {
+        this.athleteIds = athleteIds;
+        this.officialId = officialId;
+        this.id = id;
+    }
+
+    public Game(String id, String officialId, List<String> athleteIds, Date finishingDate) {
         this.athleteIds = athleteIds;
         this.officialId = officialId;
         this.id = id;
@@ -123,7 +130,7 @@ public class Game {
 
     public void handlePrediction(Athlete predictedAthlete) {
         this.predictedAthleteId = predictedAthlete.getId();
-        finishingDate = Calendar.getInstance();
+        finishingDate = Calendar.getInstance().getTime();
 
         // Summarise the game
         Official official = ParticipantWorker.getOfficialById(officialId);
@@ -220,7 +227,7 @@ public class Game {
         this.lastResult = lastResult;
     }
 
-    public Calendar getFinishingDate() {
+    public Date getFinishingDate() {
         return finishingDate;
     }
 }
