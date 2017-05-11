@@ -41,6 +41,26 @@ public class Official extends Participant {
             }
         });
 
+        // display result, also save the result as last result of the game
+//        StringBuilder resultSb = new StringBuilder(game.getId());
+//        resultSb.append("'s result:").append("\n");
+//
+//        System.out.println("Result:");
+
+        for (int i = 0; i < athletes.size(); i++) {
+            Athlete a = ParticipantWorker.getAthleteById(athletes.get(i));
+            a.setPreviousReceivedPoint(0);
+//            StringBuilder sb = new StringBuilder("#");
+//            sb.append(i + 1).append(" ").append(a.getName()).append(" - ID: ")
+//                    .append(a.getId()).append(" - Time: ").append(a.getPreviousAchieveTime());
+//
+//            String result = sb.toString();
+//            resultSb.append(result).append("\n");
+//            System.out.println(result);
+        }
+
+
+
         // Set rewards for top 3 athletes
         Athlete firstPlaceAthlete = ParticipantWorker.getAthleteById(athletes.get(0));
         Athlete secondPlaceAthlete = ParticipantWorker.getAthleteById(athletes.get(1));
@@ -49,27 +69,8 @@ public class Official extends Participant {
         secondPlaceAthlete.setPreviousReceivedPoint(SECOND_PLACE_REWARD);
         thirdPlaceAthlete.setPreviousReceivedPoint(THIRD_PLACE_REWARD);
 
-        // display result, also save the result as last result of the game
-        StringBuilder resultSb = new StringBuilder(game.getId());
-        resultSb.append("'s result:").append("\n");
 
-        System.out.println("Result:");
-
-        for (int i = 0; i < athletes.size(); i++) {
-            Athlete a = ParticipantWorker.getAthleteById(athletes.get(i));
-            StringBuilder sb = new StringBuilder("#");
-            sb.append(i + 1).append(" ").append(a.getName()).append(" - ID: ")
-                    .append(a.getId()).append(" - Time: ").append(a.getPreviousAchieveTime());
-
-//            System.out.print("#" + (i + 1) + " ");
-//            System.out.println(a.getName() + " - ID: " + a.getId() + " - Time: " + a.getPreviousAchieveTime());
-
-            String result = sb.toString();
-            resultSb.append(result).append("\n");
-            System.out.println(result);
-        }
-
-        game.setLastResult(resultSb.toString());
+//        game.setLastResult(resultSb.toString());
 
         System.out.println();
     }

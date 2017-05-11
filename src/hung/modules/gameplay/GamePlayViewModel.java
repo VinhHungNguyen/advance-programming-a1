@@ -4,6 +4,7 @@ import hung.models.Athlete;
 import hung.models.Game;
 import hung.models.Official;
 import hung.workers.GameWorker;
+import hung.workers.ParticipantWorker;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -59,7 +60,7 @@ public class GamePlayViewModel {
         String[][] results = new String[athletes.size()][];
 
         for (int i = 0; i < results.length; i++) {
-            Athlete a = athletes.get(i);
+            Athlete a = ParticipantWorker.getAthleteById(game.getAthleteIds().get(i));
             results[i] = new String[] {
                     a.getId(), a.getName(), a.getPreviousAchieveTime() + "", a.getPreviousReceivedPoint() + ""
             };

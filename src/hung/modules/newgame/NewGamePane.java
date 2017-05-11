@@ -119,7 +119,7 @@ public class NewGamePane extends FlowPane implements RootPane.Helper {
         // Setup the headers
         Label gameTypeLabel = new Label("Types of Game");
         Label officerLabel = new Label("Oficers");
-        Label athleteLabel = new Label("Athletes");
+        Label athleteLabel = new Label("Athletes (4 to 8)");
         Label predictionLabel = new Label("Your Prediction");
 
         setupLabelStyle(gameTypeLabel);
