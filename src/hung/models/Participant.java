@@ -5,6 +5,12 @@ package hung.models;
  */
 public abstract class Participant {
 
+    public static final String TYPE_OFFICER = "officer";
+    public static final String TYPE_SPRINTER = "sprinter";
+    public static final String TYPE_SUPER = "super";
+    public static final String TYPE_SWIMMER = "swimmer";
+    public static final String TYPE_CYCLIST = "cyclist";
+
     protected String id;
     protected String name;
     protected String state;

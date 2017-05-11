@@ -5,6 +5,8 @@ import hung.modules.listview.ListViewViewModel;
 import hung.modules.newgame.NewGamePane;
 import hung.utils.ViewUtils;
 import hung.views.RootPane;
+import hung.workers.GameWorker;
+import hung.workers.ParticipantWorker;
 import javafx.animation.FadeTransition;
 
 /**
@@ -25,7 +27,7 @@ public class HomeRouter {
 
     public void toHistory(HomePane homePane) {
         String[] headerContents = {"Game ID", "Officer Name", "First Place", "Second Place", "Third Place"};
-        String[][] rowContents = new String[0][];
+        String[][] rowContents = GameWorker.getFinishedGamesAsStrings();
 
         RootPane rootPane = homePane.getRootPane();
         ListViewViewModel viewModel = new ListViewViewModel(headerContents, rowContents);
@@ -36,7 +38,7 @@ public class HomeRouter {
 
     public void toLeaderboard(HomePane homePane) {
         String[] headerContents = {"Athlete ID", "Name", "Type", "Points", "State"};
-        String[][] rowContents = new String[0][];
+        String[][] rowContents = ParticipantWorker.getAllAthletesAsStrings();
 
         RootPane rootPane = homePane.getRootPane();
         ListViewViewModel viewModel = new ListViewViewModel(headerContents, rowContents);

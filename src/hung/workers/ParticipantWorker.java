@@ -4,6 +4,9 @@ import hung.models.*;
 import javafx.collections.ObservableList;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.*;
 
 /**
@@ -54,19 +57,19 @@ public class ParticipantWorker {
                 int age = Integer.parseInt(tokens[3].trim());
                 String state = tokens[4].trim();
 
-                if (type.equals(Athlete.TYPE_OFFICER)) {
+                if (type.equals(Participant.TYPE_OFFICER)) {
                     Official official = new Official(id, name, state, age);
                     officials.put(id, official);
-                } else if (type.equals(Athlete.TYPE_SPRINTER)) {
+                } else if (type.equals(Participant.TYPE_SPRINTER)) {
                     Sprinter sprinter = new Sprinter(id, name, state, age);
                     sprinters.put(id, sprinter);
-                } else if (type.equals(Athlete.TYPE_SUPER)) {
+                } else if (type.equals(Participant.TYPE_SUPER)) {
                     SuperAthlete superAthlete = new SuperAthlete(id, name, state, age);
                     superAthletes.put(id, superAthlete);
-                } else if (type.equals(Athlete.TYPE_SWIMMER)) {
+                } else if (type.equals(Participant.TYPE_SWIMMER)) {
                     Swimmer swimmer = new Swimmer(id, name, state, age);
                     swimmers.put(id, swimmer);
-                } else if (type.equals(Athlete.TYPE_CYCLIST)) {
+                } else if (type.equals(Participant.TYPE_CYCLIST)) {
                     Cyclist cyclist = new Cyclist(id, name, state, age);
                     cyclists.put(id, cyclist);
                 } else {
@@ -101,6 +104,53 @@ public class ParticipantWorker {
         return false;
     }
 
+    public static void saveAll() {
+        if (saveAllToDatabase()) {
+            return;
+        }
+
+        List<Participant> allParticipants = getAllParticipants();
+        File file = new File("participants.txt");
+        Writer writer = null;
+
+        try {
+            writer = new PrintWriter(file);
+
+            for (Participant p : allParticipants) {
+                String type = "";
+                if (p instanceof Official) {
+                    type = Participant.TYPE_OFFICER;
+                } else if (p instanceof Swimmer) {
+                    type = Participant.TYPE_SWIMMER;
+                } else if (p instanceof Cyclist) {
+                    type = Participant.TYPE_CYCLIST;
+                } else if (p instanceof Sprinter) {
+                    type = Participant.TYPE_SPRINTER;
+                } else {
+                    type = Participant.TYPE_SUPER;
+                }
+
+                    StringBuilder sb = new StringBuilder(p.getId());
+                sb.append(", ").append(type).append(", ").append(p.getName());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static boolean saveAllToDatabase() {
+        return false;
+    }
+
     public static Participant getParticipantById(String id) {
         if (officials.containsKey(id)) {
             return getOfficialById(id);
@@ -122,6 +172,52 @@ public class ParticipantWorker {
             return getSuperAthleteById(id);
         }
         return null;
+    }
+
+    public static String[][] getAllAthletesAsStrings() {
+        List<Athlete> allAthletes = getAllAthletes();
+
+        Collections.sort(allAthletes,  new Comparator<Athlete>() {
+            @Override
+            public int compare(Athlete o1, Athlete o2) {
+                if (o1.getTotalPoint() > o1.getTotalPoint()) {
+                    return 1;
+                } else if (o1.getTotalPoint() < o2.getTotalPoint()) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
+
+        String[][] results = new String[allAthletes.size()][];
+
+        for (int i = 0; i < results.length; i++) {
+            Athlete a = allAthletes.get(i);
+            results[i] = new String[] {
+                    a.getId(), a.getName(), a.getPlayableGameIdPrefix(), a.getTotalPoint() + "", a.getState()
+            };
+        }
+
+        return results;
+    }
+
+    private static List<Athlete> getAllAthletes() {
+        List<Athlete> allAthletes = new ArrayList<>();
+        allAthletes.addAll(swimmers.values());
+        allAthletes.addAll(cyclists.values());
+        allAthletes.addAll(sprinters.values());
+        allAthletes.addAll(superAthletes.values());
+        return allAthletes;
+    }
+
+    private static List<Participant> getAllParticipants() {
+        List<Participant> allParticipants = new ArrayList<>();
+        allParticipants.addAll(swimmers.values());
+        allParticipants.addAll(cyclists.values());
+        allParticipants.addAll(sprinters.values());
+        allParticipants.addAll(superAthletes.values());
+        allParticipants.addAll(officials.values());
+        return allParticipants;
     }
 
     public static Swimmer getSwimmerById(String id) {

@@ -191,6 +191,25 @@ public class GameWorker {
         return game;
     }
 
+    public static String[][] getFinishedGamesAsStrings() {
+        String[][] results = new String[games.size()][];
+
+        for (int i = 0; i < results.length; i++) {
+            Game g = games.get(i);
+            Official official = ParticipantWorker.getOfficialById(g.getOfficialId());
+            Athlete firstPlaceAthlete = ParticipantWorker.getAthleteById(g.getAthleteIds().get(0));
+            Athlete secondPlaceAthlete = ParticipantWorker.getAthleteById(g.getAthleteIds().get(1));
+            Athlete thirdPlaceAthlete = ParticipantWorker.getAthleteById(g.getAthleteIds().get(2));
+
+            results[i] = new String[] {
+                    g.getId(), official.getName(),
+                    firstPlaceAthlete.getName(), secondPlaceAthlete.getName(), thirdPlaceAthlete.getName()
+            };
+        }
+
+        return results;
+    }
+
     public static ObservableList<Game> getGames() {
         return games;
     }

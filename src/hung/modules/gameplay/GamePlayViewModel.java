@@ -53,6 +53,8 @@ public class GamePlayViewModel {
 
     public void saveGame() {
         GameWorker.insertGame(game);
+
+
     }
 
     public void nextCount() {
