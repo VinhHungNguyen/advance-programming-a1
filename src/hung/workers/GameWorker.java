@@ -30,6 +30,10 @@ public class GameWorker {
         }
 
         File file = new File("gameResults.txt");
+        if (!file.exists()) {
+            return;
+        }
+
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);

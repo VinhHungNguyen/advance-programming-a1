@@ -9,10 +9,13 @@ import hung.views.RootPane;
  */
 public class GamePlayRouter {
 
-    public void toGameResult(GamePlayPane gamePlayPane) {
+    public void toGameResult(GamePlayPane gamePlayPane, GamePlayViewModel gamePlayViewModel) {
+        String[] headerContents = {"Athlete ID", "Name", "Achieved Time", "Reward"};
+        String[][] rowContents = gamePlayViewModel.getResultAsStrings();
+
         RootPane rootPane = gamePlayPane.getRootPane();
-        ListViewViewModel viewModel = new ListViewViewModel();
-        ListViewPane listViewPane = new ListViewPane(rootPane, viewModel, "Result");
+        ListViewViewModel listViewViewModel = new ListViewViewModel(headerContents, rowContents);
+        ListViewPane listViewPane = new ListViewPane(rootPane, listViewViewModel, "Result");
 
         rootPane.addWithAnimation(listViewPane, () -> {
             rootPane.getChildren().remove(gamePlayPane);

@@ -75,7 +75,7 @@ public class GamePlayPane extends Pane implements RootPane.Helper {
         scaleTransition.setOnFinished(event -> {
             if (viewModel.getCounter() == 1) {
                 getChildren().remove(counterPane);
-                router.toGameResult(this);
+                router.toGameResult(this, viewModel);
 
                 return;
             }

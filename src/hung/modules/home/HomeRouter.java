@@ -24,16 +24,22 @@ public class HomeRouter {
     }
 
     public void toHistory(HomePane homePane) {
+        String[] headerContents = {"Game ID", "Officer Name", "First Place", "Second Place", "Third Place"};
+        String[][] rowContents = new String[0][];
+
         RootPane rootPane = homePane.getRootPane();
-        ListViewViewModel viewModel = new ListViewViewModel();
+        ListViewViewModel viewModel = new ListViewViewModel(headerContents, rowContents);
         ListViewPane listViewPane = new ListViewPane(rootPane, viewModel, "History");
 
         rootPane.addWithAnimation(listViewPane, null);
     }
 
     public void toLeaderboard(HomePane homePane) {
+        String[] headerContents = {"Athlete ID", "Name", "Type", "Points", "State"};
+        String[][] rowContents = new String[0][];
+
         RootPane rootPane = homePane.getRootPane();
-        ListViewViewModel viewModel = new ListViewViewModel();
+        ListViewViewModel viewModel = new ListViewViewModel(headerContents, rowContents);
         ListViewPane listViewPane = new ListViewPane(rootPane, viewModel, "Leaderboard");
 
         rootPane.addWithAnimation(listViewPane, null);

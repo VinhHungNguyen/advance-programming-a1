@@ -55,6 +55,19 @@ public class GamePlayViewModel {
         counterString.setValue(counter + "");
     }
 
+    public String[][] getResultAsStrings() {
+        String[][] results = new String[athletes.size()][];
+
+        for (int i = 0; i < results.length; i++) {
+            Athlete a = athletes.get(i);
+            results[i] = new String[] {
+                    a.getId(), a.getName(), a.getPreviousAchieveTime() + "", a.getPreviousReceivedPoint() + ""
+            };
+        }
+
+        return results;
+    }
+
     public String getCounterString() {
         return counterString.get();
     }
@@ -66,4 +79,5 @@ public class GamePlayViewModel {
     public int getCounter() {
         return counter;
     }
+
 }
