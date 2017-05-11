@@ -2,6 +2,8 @@ package hung.modules.newgame;
 
 import hung.models.*;
 import hung.workers.ParticipantWorker;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -16,10 +18,14 @@ public class NewGameViewModel {
     private ObservableList<SuperAthlete> superAthletes;
 
     private ObservableList<Official> officials;
+    private Official selectedOfficer;
 
     private ObservableList<String> gameTypes;
     private ObservableList<Athlete> athletesOfType;
     private ObservableList<Athlete> selectedAthletes;
+    private Athlete predictedAthlete;
+
+    private BooleanProperty okDisabled;
 
     public NewGameViewModel() {
         this.swimmers = FXCollections.observableArrayList(ParticipantWorker.getSwimmers());
@@ -47,6 +53,7 @@ public class NewGameViewModel {
         gameTypes = FXCollections.observableArrayList(Game.TYPE_SWIMMING, Game.TYPE_CYCLING, Game.TYPE_RUNNING);
         athletesOfType = FXCollections.observableArrayList();
         selectedAthletes = FXCollections.observableArrayList();
+        okDisabled = new SimpleBooleanProperty(false);
     }
 
     /**
@@ -56,6 +63,8 @@ public class NewGameViewModel {
      */
     public ObservableList<Athlete> updateAthletesByType(String type) {
         selectedAthletes.clear();
+        okDisabled.setValue(true);
+
         if (type.equals(Game.TYPE_SWIMMING)) {
             return getSwimmableAthletes();
         }
@@ -66,6 +75,10 @@ public class NewGameViewModel {
             return getRunnableAthletes();
         }
         return null;
+    }
+
+    private void updateOkDisabled() {
+        okDisabled.setValue(selectedOfficer == null || selectedAthletes.isEmpty() || predictedAthlete == null);
     }
 
     /**
@@ -108,6 +121,7 @@ public class NewGameViewModel {
     public void updateSelectedAthletes(ObservableList<Athlete> selectedAthletes) {
         this.selectedAthletes.clear();
         this.selectedAthletes.addAll(selectedAthletes);
+        updateOkDisabled();
     }
 
     public ObservableList<Official> getOfficials() {
@@ -124,5 +138,31 @@ public class NewGameViewModel {
 
     public ObservableList<Athlete> getSelectedAthletes() {
         return selectedAthletes;
+    }
+
+    public void setSelectedOfficer(Official selectedOfficer) {
+        this.selectedOfficer = selectedOfficer;
+        updateOkDisabled();
+    }
+
+    public Official getSelectedOfficer() {
+        return selectedOfficer;
+    }
+
+    public void setPredictedAthlete(Athlete predictedAthlete) {
+        this.predictedAthlete = predictedAthlete;
+        updateOkDisabled();
+    }
+
+    public Athlete getPredictedAthlete() {
+        return predictedAthlete;
+    }
+
+    public boolean getOkDisabled() {
+        return okDisabled.get();
+    }
+
+    public BooleanProperty okDisabledProperty() {
+        return okDisabled;
     }
 }

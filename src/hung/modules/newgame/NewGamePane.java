@@ -26,6 +26,8 @@ public class NewGamePane extends FlowPane implements RootPane.Helper {
     private ListView<Athlete> athleteListView;
     private ListView<Athlete> selectedAthleteListView;
 
+    private Button okButton;
+
     private NewGameViewModel viewModel;
     private NewGameRouter router;
 
@@ -89,13 +91,28 @@ public class NewGamePane extends FlowPane implements RootPane.Helper {
             }
 
             viewModel.updateAthletesByType(newValue);
-//            athleteListView.setItems(viewModel.updateAthletesByType(newValue));
+        });
+
+        officerListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (oldValue != null && oldValue.equals(newValue)) {
+                return;
+            }
+
+            viewModel.setSelectedOfficer(newValue);
         });
 
         athleteListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         athleteListView.setOnMouseClicked(event -> {
             ObservableList<Athlete> selectedAthletes = athleteListView.getSelectionModel().getSelectedItems();
             viewModel.updateSelectedAthletes(selectedAthletes);
+        });
+
+        selectedAthleteListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (oldValue != null && oldValue.equals(newValue)) {
+                return;
+            }
+
+            viewModel.setPredictedAthlete(newValue);
         });
 
 
@@ -141,7 +158,8 @@ public class NewGamePane extends FlowPane implements RootPane.Helper {
      */
     private BorderPane setupBottomBar() {
         // The Ok button to enter a game
-        Button okButton = new Button(" Ok ");
+        okButton = new Button(" Ok ");
+        okButton.disableProperty().bind(viewModel.okDisabledProperty());
         okButton.setOnAction(event -> {
             okButtonClicked();
         });
@@ -176,11 +194,7 @@ public class NewGamePane extends FlowPane implements RootPane.Helper {
      * Handle ok button clicked
      */
     private void okButtonClicked() {
-        Official official = officerListView.getSelectionModel().getSelectedItem();
-        ObservableList<Athlete> athletes = athleteListView.getSelectionModel().getSelectedItems();
-        Athlete predictedAthlete = selectedAthleteListView.getSelectionModel().getSelectedItem();
-
-        router.toRunGame(this, official, athletes, predictedAthlete);
+        router.toRunGame(this);
     }
 
     /**
@@ -206,5 +220,9 @@ public class NewGamePane extends FlowPane implements RootPane.Helper {
     @Override
     public RootPane getRootPane() {
         return rootPane;
+    }
+
+    public NewGameViewModel getViewModel() {
+        return viewModel;
     }
 }

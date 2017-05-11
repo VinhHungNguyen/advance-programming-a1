@@ -16,25 +16,25 @@ public class NewGameRouter {
     /**
      * Move to run game when Ok button is clicked
      * @param newGamePane
-     * @param officer
-     * @param athletes
-     * @param predictedAthlete
      */
-    public void toRunGame(NewGamePane newGamePane, Official officer, ObservableList<Athlete> athletes, Athlete predictedAthlete) {
+    public void toRunGame(NewGamePane newGamePane) {
         // TODO: Handle validation for officer, athletes, and predicted athlete here
-        if (officer == null) {
+//        if (officer == null) {
+//
+//        }
+//        if (athletes == null || athletes.isEmpty()) {
+//
+//        }
+//        if (predictedAthlete == null) {
+//
+//        }
 
-        }
-        if (athletes == null || athletes.isEmpty()) {
-
-        }
-        if (predictedAthlete == null) {
-
-        }
-
-
+        NewGameViewModel newGameViewModel = newGamePane.getViewModel();
         RootPane rootPane = newGamePane.getRootPane();
-        GamePlayViewModel gamePlayViewModel = new GamePlayViewModel(officer, athletes, predictedAthlete);
+        GamePlayViewModel gamePlayViewModel = new GamePlayViewModel(
+                newGameViewModel.getSelectedOfficer(),
+                newGameViewModel.getSelectedAthletes(),
+                newGameViewModel.getPredictedAthlete());
         GamePlayPane gamePlayPane = new GamePlayPane(rootPane, gamePlayViewModel);
 
         rootPane.addWithAnimation(gamePlayPane, () -> {
