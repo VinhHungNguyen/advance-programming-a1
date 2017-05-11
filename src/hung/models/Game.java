@@ -130,7 +130,7 @@ public class Game {
 
     public void handlePrediction(Athlete predictedAthlete) {
         this.predictedAthleteId = predictedAthlete.getId();
-        finishingDate = Calendar.getInstance().getTime();
+//        finishingDate = Calendar.getInstance().getTime();
 
         // Summarise the game
         Official official = ParticipantWorker.getOfficialById(officialId);
@@ -225,6 +225,10 @@ public class Game {
 
     public void setLastResult(String lastResult) {
         this.lastResult = lastResult;
+    }
+
+    public void setFinishingDate(Date finishingDate) {
+        this.finishingDate = finishingDate;
     }
 
     public Date getFinishingDate() {

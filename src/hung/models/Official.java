@@ -2,6 +2,7 @@ package hung.models;
 
 import hung.workers.ParticipantWorker;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -72,6 +73,8 @@ public class Official extends Participant {
 
 //        game.setLastResult(resultSb.toString());
 
-        System.out.println();
+//        System.out.println();
+
+        game.setFinishingDate(Calendar.getInstance().getTime());
     }
 }

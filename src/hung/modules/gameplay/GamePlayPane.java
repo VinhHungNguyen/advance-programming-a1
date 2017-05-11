@@ -78,6 +78,7 @@ public class GamePlayPane extends Pane implements RootPane.Helper {
 
                 viewModel.generateResult();
                 viewModel.summarise();
+                viewModel.saveGame();
                 router.toGameResult(this, viewModel);
 
                 return;

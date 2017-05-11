@@ -16,6 +16,8 @@ import java.util.*;
  */
 public class GameWorker {
 
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
+
     private static ObservableList<Game> games;
 
     /**
@@ -37,7 +39,6 @@ public class GameWorker {
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine().trim();
@@ -50,7 +51,7 @@ public class GameWorker {
                 String gameId = tokens[0].trim();
                 String officialId = tokens[1].trim();
                 String dateString = tokens[2].trim();
-                Date finishingDate = sdf.parse(dateString);
+                Date finishingDate = simpleDateFormat.parse(dateString);
                 List<String> athleteIds = new ArrayList<>();
 
                 // Loop throught all athletes of this game
@@ -104,7 +105,6 @@ public class GameWorker {
 
         try {
             writer = new PrintWriter(file);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
 //            List<Game> games = new ArrayList<>();
 //            games.addAll(cyclingGames);
 //            games.addAll(runningGames);
@@ -112,7 +112,7 @@ public class GameWorker {
 
             for (Game g : games) {
                 StringBuilder sb = new StringBuilder(g.getId());
-                sb.append(", ").append(g.getOfficialId()).append(", ").append(sdf.format(g.getFinishingDate()));
+                sb.append(", ").append(g.getOfficialId()).append(", ").append(simpleDateFormat.format(g.getFinishingDate()));
 
                 for (String id : g.getAthleteIds()) {
                     Athlete a = ParticipantWorker.getAthleteById(id);
@@ -140,9 +140,47 @@ public class GameWorker {
         }
     }
 
-    public boolean insertGame(Game game) {
+    public static boolean insertGame(Game game) {
         games.add(game);
+
+        writeGameToFile(game);
+
         return true;
+    }
+
+    private static void writeGameToFile(Game game) {
+        File file = new File("gameResults.txt");
+        Writer writer = null;
+
+        try {
+            writer = new PrintWriter(file);
+
+            StringBuilder sb = new StringBuilder(game.getId());
+            sb.append(", ").append(game.getOfficialId()).append(", ").append(simpleDateFormat.format(game.getFinishingDate()));
+
+            for (String id : game.getAthleteIds()) {
+                Athlete a = ParticipantWorker.getAthleteById(id);
+                sb.append("\n")
+                        .append(a.getId()).append(", ")
+                        .append(a.getPreviousAchieveTime()).append(", ")
+                        .append(a.getPreviousReceivedPoint());
+            }
+
+//                writer.write(g.getGameResult());
+            writer.write(sb.toString());
+            writer.write("\n\n");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public static Game makeNewGame(String idPrefix,

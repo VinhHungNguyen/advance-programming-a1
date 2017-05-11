@@ -51,6 +51,10 @@ public class GamePlayViewModel {
         officer.summarise(game);
     }
 
+    public void saveGame() {
+        GameWorker.insertGame(game);
+    }
+
     public void nextCount() {
         counter--;
         counterString.setValue(counter + "");
