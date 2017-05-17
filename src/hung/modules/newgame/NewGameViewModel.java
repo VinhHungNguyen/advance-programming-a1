@@ -83,7 +83,6 @@ public class NewGameViewModel {
                         || selectedAthletes.size() < Game.MIN_PARTICIPANTS
                         || selectedAthletes.size() > Game.MAX_PARTICIPANTS
                         || predictedAthlete == null);
-        System.out.println(okDisabled);
     }
 
     /**

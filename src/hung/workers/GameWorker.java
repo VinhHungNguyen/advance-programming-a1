@@ -4,12 +4,8 @@ import hung.models.*;
 import hung.utils.DatabaseUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.hsqldb.Server;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
+import java.io.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -57,9 +53,9 @@ public class GameWorker {
 
         Scanner scanner = null;
         Connection connection = null;
-        Server server = DatabaseUtils.getServer();
+//        Server server = DatabaseUtils.getServer();
 
-        server.start();
+//        server.start();
 
         try {
             connection = DatabaseUtils.getConnection();
@@ -69,7 +65,7 @@ public class GameWorker {
             if (loadGamesFromDatabase(connection)) {
                 System.out.println("Successfully load Games from database");
                 connection.close();
-                server.stop();
+//                server.stop();
                 return;
             }
 
@@ -180,7 +176,7 @@ public class GameWorker {
             }
         }
 
-        server.stop();
+//        server.stop();
     }
 
     /**
@@ -252,6 +248,8 @@ public class GameWorker {
                 String athleteId = gameAthleteResultSet.getString(FIELD_ATHLETE_ID);
                 String achieveTime = gameAthleteResultSet.getString(FIELD_ACHIEVE_TIME);
                 String rewardPoint = gameAthleteResultSet.getString(FIELD_REWARD_POINT);
+
+                System.out.println("GA: " + gameId + " - " + athleteId);
 
                 Game g = games.get(gameId);
                 g.addAthleteId(athleteId);
@@ -330,9 +328,9 @@ public class GameWorker {
      */
     private static void insertGameToDatabase(Game game) {
         Connection connection = null;
-        Server server = DatabaseUtils.getServer();
+//        Server server = DatabaseUtils.getServer();
 
-        server.start();
+//        server.start();
 
         try {
             connection = DatabaseUtils.getConnection();
@@ -392,7 +390,7 @@ public class GameWorker {
             }
         }
 
-        server.stop();
+//        server.stop();
     }
 
     /**
@@ -404,7 +402,7 @@ public class GameWorker {
         Writer writer = null;
 
         try {
-            writer = new PrintWriter(file);
+            writer = new PrintWriter(new FileOutputStream(file, true));
 
             StringBuilder sb = new StringBuilder(game.getId());
             sb.append(", ").append(game.getOfficialId()).append(", ").append(simpleDateFormat.format(game.getFinishingDate()));
@@ -418,8 +416,8 @@ public class GameWorker {
             }
 
 //                writer.write(g.getGameResult());,
-            writer.write(sb.toString());
-            writer.write("\n\n");
+            writer.append(sb.toString());
+            writer.append("\n\n");
 
         } catch (Exception e) {
             e.printStackTrace();

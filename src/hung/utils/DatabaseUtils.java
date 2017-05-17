@@ -2,7 +2,6 @@ package hung.utils;
 
 import hung.models.Game;
 import hung.models.Participant;
-import org.hsqldb.Server;
 
 import java.io.File;
 import java.sql.*;
@@ -47,14 +46,14 @@ public class DatabaseUtils {
      * Get the server working with the database
      * @return
      */
-    public static Server getServer() {
-        Server hsqlServer = new Server();
-        hsqlServer.setLogWriter(null);
-        hsqlServer.setSilent(true);
-        hsqlServer.setDatabaseName(0, DB_NAME);
-        hsqlServer.setDatabasePath(0, DB_PATH);
-        return hsqlServer;
-    }
+//    public static Server getServer() {
+//        Server hsqlServer = new Server();
+//        hsqlServer.setLogWriter(null);
+//        hsqlServer.setSilent(true);
+//        hsqlServer.setDatabaseName(0, DB_NAME);
+//        hsqlServer.setDatabasePath(0, DB_PATH);
+//        return hsqlServer;
+//    }
 
     /**
      * Determine whether a table already existed.

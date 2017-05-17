@@ -2,7 +2,6 @@ package hung.workers;
 
 import hung.models.*;
 import hung.utils.DatabaseUtils;
-import org.hsqldb.Server;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,9 +56,9 @@ public class ParticipantWorker {
 
         Scanner scanner = null;
         Connection connection = null;
-        Server server = DatabaseUtils.getServer();
+//        Server server = DatabaseUtils.getServer();
 
-        server.start();
+//        server.start();
 
         try {
             connection = DatabaseUtils.getConnection();
@@ -69,7 +68,7 @@ public class ParticipantWorker {
             if (loadParticipantsFromDatabase(connection)) {
                 System.out.println("Successfully load Participants from database");
                 connection.close();
-                server.stop();
+//                server.stop();
                 return;
             }
 
@@ -126,7 +125,7 @@ public class ParticipantWorker {
             }
         }
 
-        server.stop();
+//        server.stop();
     }
 
     /**
@@ -305,9 +304,9 @@ public class ParticipantWorker {
 
     public static void updateAthlete(Athlete athlete) {
         Connection connection = null;
-        Server server = DatabaseUtils.getServer();
+//        Server server = DatabaseUtils.getServer();
 
-        server.start();
+//        server.start();
 
         try {
             connection = DatabaseUtils.getConnection();
@@ -338,7 +337,7 @@ public class ParticipantWorker {
             }
         }
 
-        server.stop();
+//        server.stop();
     }
 
     public static Participant getParticipantById(String id) {

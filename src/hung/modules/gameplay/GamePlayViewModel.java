@@ -75,7 +75,9 @@ public class GamePlayViewModel {
     }
 
     public boolean correctPrediction() {
-        return predictedAthlete.getId().equalsIgnoreCase(athletes.get(0).getId());
+        return predictedAthlete.getId().equalsIgnoreCase(game.getAthleteIds().get(0))
+                || predictedAthlete.getId().equalsIgnoreCase(game.getAthleteIds().get(1))
+                || predictedAthlete.getId().equalsIgnoreCase(game.getAthleteIds().get(2));
     }
 
     public String getCounterString() {
