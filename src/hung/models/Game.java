@@ -1,5 +1,6 @@
 package hung.models;
 
+import hung.exceptions.GameFullException;
 import hung.workers.ParticipantWorker;
 
 import java.util.ArrayList;
@@ -114,11 +115,11 @@ public class Game {
         return true;
     }
 
-    public boolean addAthleteId(String athleteId) {
+    public boolean addAthleteId(String athleteId) throws GameFullException {
         // Already reached max number of participants
         if (athleteIds.size() >= MAX_PARTICIPANTS) {
-            System.out.println("This game has reached maximum number of participants (8 participants).");
-            return false;
+//            System.out.println("This game has reached maximum number of participants (8 participants).");
+            throw new GameFullException();
         }
 
 //        // The athlete cannot play this game

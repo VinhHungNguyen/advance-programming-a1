@@ -97,10 +97,7 @@ public class ParticipantWorker {
             }
 
             // execute the batch
-            int[] updateCounts = prepareStatement.executeBatch();
-            for (int i = 0; i < updateCounts.length; i++) {
-                System.out.println("Participant Record Status: " + updateCounts[i]);
-            }
+            prepareStatement.executeBatch();
             connection.commit();
 
         } catch (ClassNotFoundException e) {

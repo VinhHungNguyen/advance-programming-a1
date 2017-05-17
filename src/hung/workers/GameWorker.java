@@ -1,5 +1,6 @@
 package hung.workers;
 
+import hung.exceptions.GameFullException;
 import hung.models.*;
 import hung.utils.DatabaseUtils;
 import javafx.collections.FXCollections;
@@ -140,19 +141,19 @@ public class GameWorker {
                     athleteIds.add(athleteId);
                 }
 
-                // execute the batch
-                gameStatement.executeBatch();
-                gameAthleteStatement.executeBatch();
-                participantStatement.executeBatch();
-
-                connection.commit();
-
-                gameStatement.close();
-                gameAthleteStatement.close();
-
                 Game game = new Game(gameId, officialId, athleteIds, finishingDate);
                 games.add(game);
             }
+
+            // execute the batch
+            gameStatement.executeBatch();
+            gameAthleteStatement.executeBatch();
+            participantStatement.executeBatch();
+
+            connection.commit();
+
+            gameStatement.close();
+            gameAthleteStatement.close();
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -247,7 +248,12 @@ public class GameWorker {
                 System.out.println("GA: " + gameId + " - " + athleteId);
 
                 Game g = games.get(gameId);
-                g.addAthleteId(athleteId);
+
+                try {
+                    g.addAthleteId(athleteId);
+                } catch (GameFullException e) {
+                    System.out.println("This game has reached maximum number of participants (8 participants).");
+                }
             }
 
             GameWorker.games.addAll(games.values());
