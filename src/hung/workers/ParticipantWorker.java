@@ -56,9 +56,6 @@ public class ParticipantWorker {
 
         Scanner scanner = null;
         Connection connection = null;
-//        Server server = DatabaseUtils.getServer();
-
-//        server.start();
 
         try {
             connection = DatabaseUtils.getConnection();
@@ -124,8 +121,6 @@ public class ParticipantWorker {
                 }
             }
         }
-
-//        server.stop();
     }
 
     /**
@@ -304,9 +299,6 @@ public class ParticipantWorker {
 
     public static void updateAthlete(Athlete athlete) {
         Connection connection = null;
-//        Server server = DatabaseUtils.getServer();
-
-//        server.start();
 
         try {
             connection = DatabaseUtils.getConnection();
@@ -336,8 +328,6 @@ public class ParticipantWorker {
                 }
             }
         }
-
-//        server.stop();
     }
 
     public static Participant getParticipantById(String id) {

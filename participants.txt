@@ -10,3 +10,15 @@ Oz0009, officer, Akatsuki, 21, WA
 Oz0010, cyclist, Madara, 35, VIC
 Oz0011, super, Kirito, 24, NSW
 Oz0012, swimmer, Keima, 30, TAS
+Oz0013, sprinter, Sasuke, 35, VIC
+Oz0014, super, Acnologia, 24, NSW
+Oz0015, swimmer, Hajime, 30, TAS
+Oz0016, cyclist, Aoshi, 21, WA
+Oz0017, sprinter, Makoto, 35, VIC
+Oz0018, super, Hanzo, 24, NSW
+Oz0019, swimmer, Susano, 30, TAS
+Oz0020, officer, Tsukuyomi, 21, WA
+Oz0021, cyclist, Hinata, 35, VIC
+Oz0022, super, Yukihime, 24, NSW
+Oz0023, swimmer, Takeda, 30, TAS
+Oz0024, officer, Nobunaga, 21, WA

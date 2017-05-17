@@ -53,9 +53,6 @@ public class GameWorker {
 
         Scanner scanner = null;
         Connection connection = null;
-//        Server server = DatabaseUtils.getServer();
-
-//        server.start();
 
         try {
             connection = DatabaseUtils.getConnection();
@@ -175,8 +172,6 @@ public class GameWorker {
                 }
             }
         }
-
-//        server.stop();
     }
 
     /**
@@ -328,9 +323,6 @@ public class GameWorker {
      */
     private static void insertGameToDatabase(Game game) {
         Connection connection = null;
-//        Server server = DatabaseUtils.getServer();
-
-//        server.start();
 
         try {
             connection = DatabaseUtils.getConnection();
@@ -389,8 +381,6 @@ public class GameWorker {
                 }
             }
         }
-
-//        server.stop();
     }
 
     /**
