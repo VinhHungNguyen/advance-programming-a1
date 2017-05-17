@@ -28,7 +28,7 @@ public class ListViewViewModel {
         return rowViewModels;
     }
 
-    class RowViewModel {
+    public class RowViewModel {
         private boolean isHeader;
         private ObservableList<String> columns;
 
