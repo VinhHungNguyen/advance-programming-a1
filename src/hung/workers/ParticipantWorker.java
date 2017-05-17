@@ -32,6 +32,9 @@ public class ParticipantWorker {
             + ", " + FIELD_SCORE
             + ") values(?, ?, ?, ?, ?, ?)";
 
+    public static final String UPDATE_PARTICIPANT = "UPDATE " + DatabaseUtils.TABLE_PARTICIPANTS
+            + " SET " + FIELD_SCORE + " = ? WHERE " + FIELD_ID + " = ?";
+
     private static Map<String, Swimmer> swimmers;
     private static Map<String, Cyclist> cyclists;
     private static Map<String, Sprinter> sprinters;
@@ -64,7 +67,7 @@ public class ParticipantWorker {
 
             // Return if successfully loading from database
             if (loadParticipantsFromDatabase(connection)) {
-                System.out.println("Successfully load from database");
+                System.out.println("Successfully load Participants from database");
                 connection.close();
                 server.stop();
                 return;
@@ -77,6 +80,11 @@ public class ParticipantWorker {
 
             PreparedStatement prepareStatement = connection.prepareStatement(INSERT_PARTICIPANT);
             File file = new File("participants.txt");
+
+            if (!file.exists()) {
+                return;
+            }
+
             scanner = new Scanner(file);
 
             while (scanner.hasNextLine()) {
@@ -95,7 +103,7 @@ public class ParticipantWorker {
             // execute the batch
             int[] updateCounts = prepareStatement.executeBatch();
             for (int i = 0; i < updateCounts.length; i++) {
-                System.out.println("Record Status: " + updateCounts[i]);
+                System.out.println("Participant Record Status: " + updateCounts[i]);
             }
             connection.commit();
 
@@ -119,79 +127,6 @@ public class ParticipantWorker {
         }
 
         server.stop();
-
-
-//        try {
-//            File file = new File("participants.txt");
-//            scanner = new Scanner(file);
-//
-//            while (scanner.hasNextLine()) {
-//                String line = scanner.nextLine().trim();
-//                String[] tokens = line.split(",");
-//
-////                if (tokens.length < 5) {
-////                    continue;
-////                }
-////
-////                String id = tokens[0].trim();
-////                String type = tokens[1].trim();
-////                String name = tokens[2].trim();
-////                int age = Integer.parseInt(tokens[3].trim());
-////                String state = tokens[4].trim();
-////
-////                if (type.equals(Participant.TYPE_OFFICER)) {
-////                    Official official = new Official(id, name, state, age);
-////                    officials.put(id, official);
-////                } else if (type.equals(Participant.TYPE_SPRINTER)) {
-////                    Sprinter sprinter = new Sprinter(id, name, state, age);
-////                    sprinters.put(id, sprinter);
-////                } else if (type.equals(Participant.TYPE_SUPER)) {
-////                    SuperAthlete superAthlete = new SuperAthlete(id, name, state, age);
-////                    superAthletes.put(id, superAthlete);
-////                } else if (type.equals(Participant.TYPE_SWIMMER)) {
-////                    Swimmer swimmer = new Swimmer(id, name, state, age);
-////                    swimmers.put(id, swimmer);
-////                } else if (type.equals(Participant.TYPE_CYCLIST)) {
-////                    Cyclist cyclist = new Cyclist(id, name, state, age);
-////                    cyclists.put(id, cyclist);
-////                } else {
-////                    System.out.println(
-////                            "INVALID record: " + id + " - " + type + " - " + name + " - " + age + " - " + state);
-////                    continue;
-////                }
-////
-////                System.out.println("Record: " + id + " - " + type + " - " + name + " - " + age + " - " + state);
-//
-//                // Continue if the current line can't be parsed
-//                if (!parseParticipants(tokens)) {
-//                    continue;
-//                }
-//
-//                // Insert the participant parsed from file into database
-//
-//            }
-//
-////            System.out.println("Official Size: " + officials.size());
-////            System.out.println("Sprinter Size: " + sprinters.size());
-////            System.out.println("Super Size: " + superAthletes.size());
-////            System.out.println("Swimmer Size: " + swimmers.size());
-////            System.out.println("Cyclist Size: " + cyclists.size());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (scanner != null) {
-//                scanner.close();
-//            }
-//            if (connection != null) {
-//                try {
-//                    connection.close();
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//
-//        server.stop();
     }
 
     /**
@@ -222,6 +157,7 @@ public class ParticipantWorker {
                 return false;
             }
 
+            // Retrieve participants
             Statement statement = connection.createStatement();
             ResultSet resultSet = DatabaseUtils.getAllRecords(statement, DatabaseUtils.TABLE_PARTICIPANTS);
 
@@ -363,6 +299,48 @@ public class ParticipantWorker {
         return false;
     }
 
+    public static void updateAthlete(Athlete athlete, Connection connection, PreparedStatement statement) {
+
+    }
+
+    public static void updateAthlete(Athlete athlete) {
+        Connection connection = null;
+        Server server = DatabaseUtils.getServer();
+
+        server.start();
+
+        try {
+            connection = DatabaseUtils.getConnection();
+            connection.setAutoCommit(false);
+
+            PreparedStatement statement = connection.prepareStatement(UPDATE_PARTICIPANT);
+            statement.setInt(1, athlete.getTotalPoint());
+            statement.setString(2, athlete.getId());
+            statement.addBatch();
+            statement.executeBatch();
+
+            connection.commit();
+            statement.close();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        server.stop();
+    }
+
     public static Participant getParticipantById(String id) {
         if (officials.containsKey(id)) {
             return getOfficialById(id);
@@ -392,9 +370,9 @@ public class ParticipantWorker {
         Collections.sort(allAthletes,  new Comparator<Athlete>() {
             @Override
             public int compare(Athlete o1, Athlete o2) {
-                if (o1.getTotalPoint() > o1.getTotalPoint()) {
+                if (o1.getTotalPoint() < o1.getTotalPoint()) {
                     return 1;
-                } else if (o1.getTotalPoint() < o2.getTotalPoint()) {
+                } else if (o1.getTotalPoint() > o2.getTotalPoint()) {
                     return -1;
                 }
                 return 0;
@@ -406,7 +384,7 @@ public class ParticipantWorker {
         for (int i = 0; i < results.length; i++) {
             Athlete a = allAthletes.get(i);
             results[i] = new String[] {
-                    a.getId(), a.getName(), a.getPlayableGameIdPrefix(), a.getTotalPoint() + "", a.getState()
+                    a.getId(), a.getName(), a.getType(), a.getTotalPoint() + "", a.getState()
             };
         }
 

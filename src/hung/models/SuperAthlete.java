@@ -9,6 +9,7 @@ public class SuperAthlete extends Athlete {
 
     public SuperAthlete(String id, String name, String state, int age) {
         super(id, name, state, age);
+        type = Participant.TYPE_SUPER;
     }
 
     @Override

@@ -24,6 +24,7 @@ public class DatabaseUtils {
 
     public static final String TABLE_PARTICIPANTS = Participant.class.getSimpleName();
     public static final String TABLE_GAMES = Game.class.getSimpleName();
+    public static final String TABLE_GAME_PARTICIPANT = TABLE_GAMES + "_" + TABLE_PARTICIPANTS;
 
     /**
      * Setup database directory, load database driver, then connect to the database and return the connection

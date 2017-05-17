@@ -114,6 +114,31 @@ public class Game {
         return true;
     }
 
+    public boolean addAthleteId(String athleteId) {
+        // Already reached max number of participants
+        if (athleteIds.size() >= MAX_PARTICIPANTS) {
+            System.out.println("This game has reached maximum number of participants (8 participants).");
+            return false;
+        }
+
+//        // The athlete cannot play this game
+//        if (!athlete.getPlayableGameIdPrefix().isEmpty() && !id.startsWith(athlete.getPlayableGameIdPrefix())) {
+//            System.out.println("This athlete cannot participate this game.");
+//            return false;
+//        }
+
+        // The athlete is already added to this game
+        for (String id : athleteIds) {
+            if (id.equalsIgnoreCase(athleteId)) {
+                System.out.println("This athlete is already in this game.");
+                return false;
+            }
+        }
+
+        athleteIds.add(athleteId);
+        return true;
+    }
+
     /**
      * Add all athleteIds from a given list of athleteIds
      * @param athletes The list or array of athleteIds

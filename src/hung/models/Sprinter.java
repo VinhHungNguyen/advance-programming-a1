@@ -9,6 +9,7 @@ public class Sprinter extends Athlete {
 
     public Sprinter(String id, String name, String state, int age) {
         super(id, name, state, age);
+        type = Participant.TYPE_SPRINTER;
     }
 
     @Override

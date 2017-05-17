@@ -11,6 +11,8 @@ public abstract class Athlete extends Participant {
     protected int previousReceivedPoint;
     protected int previousAchieveTime;
 
+    protected String type;
+
     public Athlete(String id, String name, String state, int age) {
         super(id, name, state, age);
 //        System.out.println(this);
@@ -59,5 +61,13 @@ public abstract class Athlete extends Participant {
 
     public void setPreviousAchieveTime(int previousAchieveTime) {
         this.previousAchieveTime = previousAchieveTime;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 }

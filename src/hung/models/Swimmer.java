@@ -9,6 +9,7 @@ public class Swimmer extends Athlete {
 
     public Swimmer(String id, String name, String state, int age) {
         super(id, name, state, age);
+        type = Participant.TYPE_SWIMMER;
     }
 
     @Override
