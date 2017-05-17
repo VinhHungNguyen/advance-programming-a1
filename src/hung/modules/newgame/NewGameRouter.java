@@ -18,17 +18,6 @@ public class NewGameRouter {
      * @param newGamePane
      */
     public void toRunGame(NewGamePane newGamePane) {
-        // TODO: Handle validation for officer, athletes, and predicted athlete here
-//        if (officer == null) {
-//
-//        }
-//        if (athletes == null || athletes.isEmpty()) {
-//
-//        }
-//        if (predictedAthlete == null) {
-//
-//        }
-
         NewGameViewModel newGameViewModel = newGamePane.getViewModel();
         RootPane rootPane = newGamePane.getRootPane();
         GamePlayViewModel gamePlayViewModel = new GamePlayViewModel(

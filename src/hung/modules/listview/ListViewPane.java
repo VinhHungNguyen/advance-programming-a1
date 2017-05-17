@@ -44,6 +44,9 @@ public class ListViewPane extends VBox implements RootPane.Helper {
         getChildren().addAll(titleLabel, headerView, listView, continueButton);
     }
 
+    /**
+     * Setup the list view at the center
+     */
     private void setupListView() {
         listView = new ListView();
         listView.prefWidthProperty().bind(widthProperty().multiply(0.75));
@@ -69,6 +72,9 @@ public class ListViewPane extends VBox implements RootPane.Helper {
         headerView = new RowView(viewModel.getHeaderViewModel());
     }
 
+    /**
+     * Setup the bottom button and title view
+     */
     private void setupButtonAndTitleView() {
         titleLabel = new Label(title);
         titleLabel.setAlignment(Pos.CENTER);
@@ -89,6 +95,9 @@ public class ListViewPane extends VBox implements RootPane.Helper {
         return rootPane;
     }
 
+    /**
+     * The custom row view to display with multiple column
+     */
     private class RowView extends HBox {
 
         ListViewViewModel.RowViewModel rowViewModel;

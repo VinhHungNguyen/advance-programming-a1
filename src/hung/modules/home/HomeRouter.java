@@ -20,11 +20,19 @@ public class HomeRouter {
         fadeInTransition = ViewUtils.makeFadeTransition(500, 0.0d, 1.0d);
     }
 
+    /**
+     * Go to new game pane
+     * @param homePane
+     */
     public void toNewGame(HomePane homePane) {
         NewGamePane newGamePane = new NewGamePane(homePane.getRootPane());
         ViewUtils.fadeIn(homePane.getRootPane(), newGamePane, fadeInTransition);
     }
 
+    /**
+     * Go to history pane
+     * @param homePane
+     */
     public void toHistory(HomePane homePane) {
         String[] headerContents = {"Game ID", "Officer Name", "First Place", "Second Place", "Third Place"};
         String[][] rowContents = GameWorker.getFinishedGamesAsStrings();
@@ -36,6 +44,10 @@ public class HomeRouter {
         rootPane.addWithAnimation(listViewPane, null);
     }
 
+    /**
+     * Go to leader board pane
+     * @param homePane
+     */
     public void toLeaderboard(HomePane homePane) {
         String[] headerContents = {"Athlete ID", "Name", "Type", "Points", "State"};
         String[][] rowContents = ParticipantWorker.getAllAthletesAsStrings();

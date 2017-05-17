@@ -23,6 +23,7 @@ public class GamePlayViewModel {
 
     private Game game;
 
+    // The counter on the screen
     private StringProperty counterString;
     private int counter;
 
@@ -53,8 +54,6 @@ public class GamePlayViewModel {
 
     public void saveGame() {
         GameWorker.insertGame(game);
-
-
     }
 
     public void nextCount() {
@@ -75,6 +74,10 @@ public class GamePlayViewModel {
         return results;
     }
 
+    public boolean correctPrediction() {
+        return predictedAthlete.getId().equalsIgnoreCase(athletes.get(0).getId());
+    }
+
     public String getCounterString() {
         return counterString.get();
     }
@@ -87,4 +90,7 @@ public class GamePlayViewModel {
         return counter;
     }
 
+    public Athlete getPredictedAthlete() {
+        return predictedAthlete;
+    }
 }

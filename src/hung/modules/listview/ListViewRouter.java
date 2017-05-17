@@ -5,6 +5,10 @@ package hung.modules.listview;
  */
 public class ListViewRouter {
 
+    /**
+     * Move back to main menu
+     * @param listViewPane
+     */
     public void backToMainMenu(ListViewPane listViewPane) {
         listViewPane.getRootPane().removeWithAnimation(listViewPane, null);
     }

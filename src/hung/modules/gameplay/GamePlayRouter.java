@@ -10,12 +10,18 @@ import hung.views.RootPane;
 public class GamePlayRouter {
 
     public void toGameResult(GamePlayPane gamePlayPane, GamePlayViewModel gamePlayViewModel) {
+
+        // The content for game result view
         String[] headerContents = {"Athlete ID", "Name", "Achieved Time", "Reward"};
         String[][] rowContents = gamePlayViewModel.getResultAsStrings();
+        String title = gamePlayViewModel.correctPrediction()
+                ? "Your prediction is correct"
+                : "Your prediction is wrong";
+
 
         RootPane rootPane = gamePlayPane.getRootPane();
         ListViewViewModel listViewViewModel = new ListViewViewModel(headerContents, rowContents);
-        ListViewPane listViewPane = new ListViewPane(rootPane, listViewViewModel, "Result");
+        ListViewPane listViewPane = new ListViewPane(rootPane, listViewViewModel, title);
 
         rootPane.addWithAnimation(listViewPane, () -> {
             rootPane.getChildren().remove(gamePlayPane);

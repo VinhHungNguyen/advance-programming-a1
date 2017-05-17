@@ -181,62 +181,6 @@ public class GameWorker {
         }
 
         server.stop();
-
-
-//        File file = new File("gameResults.txt");
-//        if (!file.exists()) {
-//            return;
-//        }
-//
-//        try {
-//            scanner = new Scanner(file);
-//
-//            while (scanner.hasNextLine()) {
-//                String line = scanner.nextLine().trim();
-//                String[] tokens = line.split(",");
-//
-//                if (tokens.length < 3) {
-//                    continue;
-//                }
-//
-//                String gameId = tokens[0].trim();
-//                String officialId = tokens[1].trim();
-//                String dateString = tokens[2].trim();
-//                Date finishingDate = simpleDateFormat.parse(dateString);
-//                List<String> athleteIds = new ArrayList<>();
-//
-//                // Loop throught all athletes of this game
-//                while (scanner.hasNextLine()) {
-//                    line = scanner.nextLine().trim();
-//
-//                    // Reach the end of this game
-//                    if (line.isEmpty()) {
-//                        break;
-//                    }
-//
-//                    tokens = line.split(",");
-//
-//                    if (tokens.length < 3) {
-//                        continue;
-//                    }
-//
-//                    String athleteId = tokens[0].trim();
-//                    String achieveTime = tokens[1].trim();
-//                    String rewardPoint = tokens[2].trim();
-//
-//                    athleteIds.add(athleteId);
-//                }
-//
-//                Game game = new Game(gameId, officialId, athleteIds, finishingDate);
-//                games.add(game);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (scanner != null) {
-//                scanner.close();
-//            }
-//        }
     }
 
     /**
@@ -338,10 +282,6 @@ public class GameWorker {
 
         try {
             writer = new PrintWriter(file);
-//            List<Game> games = new ArrayList<>();
-//            games.addAll(cyclingGames);
-//            games.addAll(runningGames);
-//            games.addAll(swimmingGames);
 
             for (Game g : games) {
                 StringBuilder sb = new StringBuilder(g.getId());
@@ -355,7 +295,6 @@ public class GameWorker {
                             .append(a.getPreviousReceivedPoint());
                 }
 
-//                writer.write(g.getGameResult());
                 writer.write(sb.toString());
                 writer.write("\n\n");
             }
@@ -495,6 +434,14 @@ public class GameWorker {
         }
     }
 
+    /**
+     * Create a new game instance
+     * @param idPrefix The prefix for game ID
+     * @param officialId
+     * @param athleteIds
+     * @param predictedAthleteId
+     * @return
+     */
     public static Game makeNewGame(String idPrefix,
                                    String officialId, List<String> athleteIds, String predictedAthleteId) {
         String id = idPrefix + (games.size() + 1);

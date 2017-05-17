@@ -8,7 +8,7 @@ import javafx.collections.ObservableList;
  */
 public class ListViewViewModel {
 
-    private RowViewModel headerViewModel;
+    private RowViewModel headerViewModel; // The Header of the list view
     private ObservableList<RowViewModel> rowViewModels;
 
     public ListViewViewModel(String[] headerContents, String[][] rowContents) {

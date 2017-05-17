@@ -53,7 +53,7 @@ public class NewGameViewModel {
         gameTypes = FXCollections.observableArrayList(Game.TYPE_SWIMMING, Game.TYPE_CYCLING, Game.TYPE_RUNNING);
         athletesOfType = FXCollections.observableArrayList();
         selectedAthletes = FXCollections.observableArrayList();
-        okDisabled = new SimpleBooleanProperty(false);
+        okDisabled = new SimpleBooleanProperty(true);
     }
 
     /**
@@ -63,7 +63,7 @@ public class NewGameViewModel {
      */
     public ObservableList<Athlete> updateAthletesByType(String type) {
         selectedAthletes.clear();
-        okDisabled.setValue(true);
+        updateOkDisabled();
 
         if (type.equals(Game.TYPE_SWIMMING)) {
             return getSwimmableAthletes();
@@ -83,6 +83,7 @@ public class NewGameViewModel {
                         || selectedAthletes.size() < Game.MIN_PARTICIPANTS
                         || selectedAthletes.size() > Game.MAX_PARTICIPANTS
                         || predictedAthlete == null);
+        System.out.println(okDisabled);
     }
 
     /**

@@ -24,6 +24,7 @@ public class GamePlayPane extends Pane implements RootPane.Helper {
 
     private ParallelTransition counterTrasition;
 
+    // The counter on the screen
     private GamePlayViewModel viewModel;
     private GamePlayRouter router;
 
@@ -35,16 +36,12 @@ public class GamePlayPane extends Pane implements RootPane.Helper {
         setupCounterView();
         setupAnimations();
 
-        // The Back button to go back to main scene
-        Button backButton = new Button("Back");
-        backButton.setOnAction(event -> {
-            router.back(this);
-        });
-
         setStyle("-fx-background-color: rgba(0,255,0);");
-        getChildren().add(backButton);
     }
 
+    /**
+     * Setup the counter
+     */
     private void setupCounterView() {
         counterLabel = new Label();
         counterLabel.textProperty().bind(viewModel.counterStringProperty());
@@ -60,6 +57,9 @@ public class GamePlayPane extends Pane implements RootPane.Helper {
         getChildren().add(counterPane);
     }
 
+    /**
+     * Setup animation
+     */
     private void setupAnimations() {
         FadeTransition fadeTransition = ViewUtils.makeFadeOutTransition(1000);
         ScaleTransition scaleTransition = new ScaleTransition();
@@ -73,6 +73,8 @@ public class GamePlayPane extends Pane implements RootPane.Helper {
         scaleTransition.setByY(-counterLabel.getPrefHeight() * 2);
         scaleTransition.setDuration(Duration.millis(1000));
         scaleTransition.setOnFinished(event -> {
+
+            // If count to 1, move to Game Result
             if (viewModel.getCounter() == 1) {
                 getChildren().remove(counterPane);
 
@@ -84,6 +86,7 @@ public class GamePlayPane extends Pane implements RootPane.Helper {
                 return;
             }
 
+            // Next count
             viewModel.nextCount();
         });
 
