@@ -40,6 +40,10 @@ public abstract class Athlete extends Participant {
         return totalPoint;
     }
 
+    public void setTotalPoint(int totalPoint) {
+        this.totalPoint = totalPoint;
+    }
+
     public int getPreviousReceivedPoint() {
         return previousReceivedPoint;
     }
